@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import './main.css'
+import './auth.css'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
 
 interface Module {
   id: string
@@ -11,7 +15,7 @@ interface Module {
   duration: number
 }
 
-function App() {
+function HomePage() {
   const [modules, setModules] = useState<Module[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState('all')
@@ -37,9 +41,10 @@ function App() {
     ? modules 
     : modules.filter(m => m.category.toLowerCase() === selectedCategory)
 
+  const token = localStorage.getItem('token')
+
   return (
     <div className="app">
-      {/* Navigation */}
       <nav className="navbar">
         <div className="navbar-container">
           <div className="navbar-logo">
@@ -47,16 +52,36 @@ function App() {
             <span className="logo-text">LernLix</span>
           </div>
           <ul className="nav-menu">
-            <li><a href="#" className="nav-link active">Home</a></li>
+            <li><a href="/" className="nav-link active">Home</a></li>
             <li><a href="#" className="nav-link">Courses</a></li>
             <li><a href="#" className="nav-link">About</a></li>
             <li><a href="#" className="nav-link">Contact</a></li>
           </ul>
-          <button className="login-btn">Login</button>
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            {token ? (
+              <button 
+                className="login-btn"
+                onClick={() => {
+                  localStorage.removeItem('token')
+                  window.location.href = '/'
+                }}
+              >
+                Logout
+              </button>
+            ) : (
+              <>
+                <a href="/login" className="login-btn" style={{ textDecoration: 'none' }}>
+                  Login
+                </a>
+                <a href="/register" className="login-btn" style={{ textDecoration: 'none', background: 'rgba(0, 212, 255, 0.2)', border: '1px solid #00d4ff', color: '#00d4ff' }}>
+                  Register
+                </a>
+              </>
+            )}
+          </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
       <section className="hero">
         <div className="hero-content">
           <h1 className="hero-title">
@@ -66,7 +91,9 @@ function App() {
             Master C# programming, network technology, and more with interactive courses
           </p>
           <div className="hero-buttons">
-            <button className="btn btn-primary">Start Learning</button>
+            <button className="btn btn-primary" onClick={() => window.location.href = token ? '/dashboard' : '/register'}>
+              Start Learning
+            </button>
             <button className="btn btn-secondary">Explore Courses</button>
           </div>
         </div>
@@ -77,7 +104,6 @@ function App() {
         </div>
       </section>
 
-      {/* Stats Section */}
       <section className="stats">
         <div className="stat-item">
           <div className="stat-number">2000+</div>
@@ -97,7 +123,6 @@ function App() {
         </div>
       </section>
 
-      {/* Categories Filter */}
       <section className="courses-section">
         <h2 className="section-title">Explore Our Courses</h2>
         <div className="category-filter">
@@ -112,7 +137,6 @@ function App() {
           ))}
         </div>
 
-        {/* Courses Grid */}
         <div className="courses-grid">
           {loading ? (
             <div className="loading">
@@ -145,7 +169,6 @@ function App() {
         </div>
       </section>
 
-      {/* Features Section */}
       <section className="features">
         <h2 className="section-title">Why Choose LernLix?</h2>
         <div className="features-grid">
@@ -172,7 +195,6 @@ function App() {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="footer">
         <div className="footer-content">
           <div className="footer-section">
@@ -201,6 +223,19 @@ function App() {
         </div>
       </footer>
     </div>
+  )
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/dashboard" element={<div style={{ padding: '2rem', textAlign: 'center', color: '#e0e0e0' }}>Dashboard - Coming Soon 🎉</div>} />
+      </Routes>
+    </Router>
   )
 }
 
