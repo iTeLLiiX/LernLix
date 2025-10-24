@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="LernLix - Learning Platform" company="LernLix" webLink="https://tellix.de" view-date="2025-01-27" view-index="0" gantt-divider-location="300" resource-divider-location="300" version="3.0.3000" locale="de">
+    <description>6-Week Module Development Project</description>
+    <view class="gantt.chart.GanttChart">
+        <field id="tpd3" name="Name" width="167" order="0"/>
+        <field id="tpd4" name="Start" width="75" order="1"/>
+        <field id="tpd5" name="End" width="75" order="2"/>
+        <field id="tpd6" name="Duration" width="50" order="3"/>
+        <field id="tpd7" name="Progress" width="50" order="4"/>
+        <field id="tpd8" name="Resources" width="100" order="5"/>
+    </view>
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <day-type id="2"/>
+            <day-type id="3"/>
+            <day-type id="4"/>
+            <day-type id="5"/>
+            <day-type id="6"/>
+        </day-types>
+        <only-show-weekends value="false"/>
+        <overriden-day-types/>
+        <days/>
+    </calendars>
+    <tasks color="#8cb6ce">
+        <task id="1" name="PHASE 1: Beginner Modules (C#)" color="#00B050" meeting="false" project="true" duration="10" complete="0" thirdDate="2025-01-27" thirdDate-constraint="0" expand="true">
+            <task id="2" name="Week 1: C# Foundation" meeting="false" project="false" duration="5" complete="0" start="2025-01-27" finish="2025-01-31" thirdDate-constraint="0" expand="true">
+                <task id="3" name="Day 1: Planning" meeting="false" duration="1" complete="0" start="2025-01-27" finish="2025-01-27"/>
+                <task id="4" name="Day 2-3: Module 1+2" meeting="false" duration="2" complete="0" start="2025-01-28" finish="2025-01-29" predecessorlink="3"/>
+                <task id="5" name="Day 4: Module 3+4" meeting="false" duration="1" complete="0" start="2025-01-30" finish="2025-01-30" predecessorlink="4"/>
+                <task id="6" name="Day 5: Module 5 + QA" meeting="false" duration="1" complete="0" start="2025-01-31" finish="2025-01-31" predecessorlink="5"/>
+            </task>
+            <task id="7" name="Week 2: Testing & Deploy" meeting="false" project="false" duration="5" complete="0" start="2025-02-03" finish="2025-02-07" predecessorlink="6" expand="true">
+                <task id="8" name="Day 6: Import Modules" meeting="false" duration="1" complete="0" start="2025-02-03" finish="2025-02-03"/>
+                <task id="9" name="Day 7: User Testing" meeting="false" duration="1" complete="0" start="2025-02-04" finish="2025-02-04" predecessorlink="8"/>
+                <task id="10" name="Day 8: Bug Fixes" meeting="false" duration="1" complete="0" start="2025-02-05" finish="2025-02-05" predecessorlink="9"/>
+                <task id="11" name="Day 9-10: Documentation" meeting="false" duration="2" complete="0" start="2025-02-06" finish="2025-02-07" predecessorlink="10"/>
+                <task id="12" name="✓ MILESTONE: Phase 1 Done" meeting="true" start="2025-02-07" finish="2025-02-07" predecessorlink="11"/>
+            </task>
+        </task>
+        <task id="13" name="PHASE 2: Intermediate Modules (Networking)" color="#0070C0" meeting="false" project="true" duration="10" complete="0" thirdDate="2025-02-10" thirdDate-constraint="0" expand="true">
+            <task id="14" name="Week 3: Networking Content" meeting="false" project="false" duration="5" complete="0" start="2025-02-10" finish="2025-02-14" predecessorlink="12" expand="true">
+                <task id="15" name="Day 11: Planning" meeting="false" duration="1" complete="0" start="2025-02-10" finish="2025-02-10"/>
+                <task id="16" name="Day 12-13: Module 6+7" meeting="false" duration="2" complete="0" start="2025-02-11" finish="2025-02-12" predecessorlink="15"/>
+                <task id="17" name="Day 14: Module 8+9" meeting="false" duration="1" complete="0" start="2025-02-13" finish="2025-02-13" predecessorlink="16"/>
+                <task id="18" name="Day 15: Module 10 + QA" meeting="false" duration="1" complete="0" start="2025-02-14" finish="2025-02-14" predecessorlink="17"/>
+            </task>
+            <task id="19" name="Week 4: Testing & Deploy" meeting="false" project="false" duration="5" complete="0" start="2025-02-17" finish="2025-02-21" predecessorlink="18" expand="true">
+                <task id="20" name="Day 16: Import Modules" meeting="false" duration="1" complete="0" start="2025-02-17" finish="2025-02-17"/>
+                <task id="21" name="Day 17-18: Testing" meeting="false" duration="2" complete="0" start="2025-02-18" finish="2025-02-19" predecessorlink="20"/>
+                <task id="22" name="Day 19: Optimization" meeting="false" duration="1" complete="0" start="2025-02-20" finish="2025-02-20" predecessorlink="21"/>
+                <task id="23" name="Day 20: Analytics" meeting="false" duration="1" complete="0" start="2025-02-21" finish="2025-02-21" predecessorlink="22"/>
+                <task id="24" name="✓ MILESTONE: Phase 2 Done" meeting="true" start="2025-02-21" finish="2025-02-21" predecessorlink="23"/>
+            </task>
+        </task>
+        <task id="25" name="PHASE 3: Advanced Modules (Security)" color="#C00000" meeting="false" project="true" duration="10" complete="0" thirdDate="2025-02-24" thirdDate-constraint="0" expand="true">
+            <task id="26" name="Week 5: Advanced Content" meeting="false" project="false" duration="5" complete="0" start="2025-02-24" finish="2025-02-28" predecessorlink="24" expand="true">
+                <task id="27" name="Day 21: Planning" meeting="false" duration="1" complete="0" start="2025-02-24" finish="2025-02-24"/>
+                <task id="28" name="Day 22-23: Module 11+12" meeting="false" duration="2" complete="0" start="2025-02-25" finish="2025-02-26" predecessorlink="27"/>
+                <task id="29" name="Day 24: Module 13+14" meeting="false" duration="1" complete="0" start="2025-02-27" finish="2025-02-27" predecessorlink="28"/>
+                <task id="30" name="Day 25: Module 15 + QA" meeting="false" duration="1" complete="0" start="2025-02-28" finish="2025-02-28" predecessorlink="29"/>
+            </task>
+            <task id="31" name="Week 6: Final Deploy & Go-Live" meeting="false" project="false" duration="5" complete="0" start="2025-03-03" finish="2025-03-07" predecessorlink="30" expand="true">
+                <task id="32" name="Day 26: Final Import" meeting="false" duration="1" complete="0" start="2025-03-03" finish="2025-03-03"/>
+                <task id="33" name="Day 27: System Testing" meeting="false" duration="1" complete="0" start="2025-03-04" finish="2025-03-04" predecessorlink="32"/>
+                <task id="34" name="Day 28: UAT & Fixes" meeting="false" duration="1" complete="0" start="2025-03-05" finish="2025-03-05" predecessorlink="33"/>
+                <task id="35" name="Day 29: Final Docs" meeting="false" duration="1" complete="0" start="2025-03-06" finish="2025-03-06" predecessorlink="34"/>
+                <task id="36" name="Day 30: GO-LIVE!" meeting="false" duration="1" complete="0" start="2025-03-07" finish="2025-03-07" predecessorlink="35"/>
+                <task id="37" name="🎉 MILESTONE: Project Complete" meeting="true" start="2025-03-07" finish="2025-03-07" predecessorlink="36"/>
+            </task>
+        </task>
+    </tasks>
+    <resources>
+        <resource id="1" name="Project Manager" function="Default:1" contacts="" phone=""/>
+        <resource id="2" name="C# Developer" function="Default:1" contacts="" phone=""/>
+        <resource id="3" name="Networking Specialist" function="Default:1" contacts="" phone=""/>
+        <resource id="4" name="QA Tester" function="Default:1" contacts="" phone=""/>
+        <resource id="5" name="Admin/DevOps" function="Default:1" contacts="" phone=""/>
+    </resources>
+    <allocations>
+        <allocation task-id="2" resource-id="1" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="4" resource-id="2" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="5" resource-id="2" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="6" resource-id="2" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="8" resource-id="5" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="9" resource-id="4" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="14" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="20" resource-id="5" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="26" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="32" resource-id="5" function="Default:1" responsible="true" load="100.0"/>
+    </allocations>
+</project>
