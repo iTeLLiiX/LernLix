@@ -31,12 +31,12 @@
                 <task id="5" name="Day 4: Module 3+4" meeting="false" duration="1" complete="0" start="2025-01-30" finish="2025-01-30" predecessorlink="4"/>
                 <task id="6" name="Day 5: Module 5 + QA" meeting="false" duration="1" complete="0" start="2025-01-31" finish="2025-01-31" predecessorlink="5"/>
             </task>
-            <task id="7" name="Week 2: Testing & Deploy" meeting="false" project="false" duration="5" complete="0" start="2025-02-03" finish="2025-02-07" predecessorlink="6" expand="true">
+            <task id="7" name="Week 2: Testing and Deploy" meeting="false" project="false" duration="5" complete="0" start="2025-02-03" finish="2025-02-07" predecessorlink="6" expand="true">
                 <task id="8" name="Day 6: Import Modules" meeting="false" duration="1" complete="0" start="2025-02-03" finish="2025-02-03"/>
                 <task id="9" name="Day 7: User Testing" meeting="false" duration="1" complete="0" start="2025-02-04" finish="2025-02-04" predecessorlink="8"/>
                 <task id="10" name="Day 8: Bug Fixes" meeting="false" duration="1" complete="0" start="2025-02-05" finish="2025-02-05" predecessorlink="9"/>
                 <task id="11" name="Day 9-10: Documentation" meeting="false" duration="2" complete="0" start="2025-02-06" finish="2025-02-07" predecessorlink="10"/>
-                <task id="12" name="✓ MILESTONE: Phase 1 Done" meeting="true" start="2025-02-07" finish="2025-02-07" predecessorlink="11"/>
+                <task id="12" name="MILESTONE: Phase 1 Done" meeting="true" start="2025-02-07" finish="2025-02-07" predecessorlink="11"/>
             </task>
         </task>
         <task id="13" name="PHASE 2: Intermediate Modules (Networking)" color="#0070C0" meeting="false" project="true" duration="10" complete="0" thirdDate="2025-02-10" thirdDate-constraint="0" expand="true">
@@ -46,12 +46,12 @@
                 <task id="17" name="Day 14: Module 8+9" meeting="false" duration="1" complete="0" start="2025-02-13" finish="2025-02-13" predecessorlink="16"/>
                 <task id="18" name="Day 15: Module 10 + QA" meeting="false" duration="1" complete="0" start="2025-02-14" finish="2025-02-14" predecessorlink="17"/>
             </task>
-            <task id="19" name="Week 4: Testing & Deploy" meeting="false" project="false" duration="5" complete="0" start="2025-02-17" finish="2025-02-21" predecessorlink="18" expand="true">
+            <task id="19" name="Week 4: Testing and Deploy" meeting="false" project="false" duration="5" complete="0" start="2025-02-17" finish="2025-02-21" predecessorlink="18" expand="true">
                 <task id="20" name="Day 16: Import Modules" meeting="false" duration="1" complete="0" start="2025-02-17" finish="2025-02-17"/>
                 <task id="21" name="Day 17-18: Testing" meeting="false" duration="2" complete="0" start="2025-02-18" finish="2025-02-19" predecessorlink="20"/>
                 <task id="22" name="Day 19: Optimization" meeting="false" duration="1" complete="0" start="2025-02-20" finish="2025-02-20" predecessorlink="21"/>
                 <task id="23" name="Day 20: Analytics" meeting="false" duration="1" complete="0" start="2025-02-21" finish="2025-02-21" predecessorlink="22"/>
-                <task id="24" name="✓ MILESTONE: Phase 2 Done" meeting="true" start="2025-02-21" finish="2025-02-21" predecessorlink="23"/>
+                <task id="24" name="MILESTONE: Phase 2 Done" meeting="true" start="2025-02-21" finish="2025-02-21" predecessorlink="23"/>
             </task>
         </task>
         <task id="25" name="PHASE 3: Advanced Modules (Security)" color="#C00000" meeting="false" project="true" duration="10" complete="0" thirdDate="2025-02-24" thirdDate-constraint="0" expand="true">
@@ -61,13 +61,13 @@
                 <task id="29" name="Day 24: Module 13+14" meeting="false" duration="1" complete="0" start="2025-02-27" finish="2025-02-27" predecessorlink="28"/>
                 <task id="30" name="Day 25: Module 15 + QA" meeting="false" duration="1" complete="0" start="2025-02-28" finish="2025-02-28" predecessorlink="29"/>
             </task>
-            <task id="31" name="Week 6: Final Deploy & Go-Live" meeting="false" project="false" duration="5" complete="0" start="2025-03-03" finish="2025-03-07" predecessorlink="30" expand="true">
+            <task id="31" name="Week 6: Final Deploy and Go-Live" meeting="false" project="false" duration="5" complete="0" start="2025-03-03" finish="2025-03-07" predecessorlink="30" expand="true">
                 <task id="32" name="Day 26: Final Import" meeting="false" duration="1" complete="0" start="2025-03-03" finish="2025-03-03"/>
                 <task id="33" name="Day 27: System Testing" meeting="false" duration="1" complete="0" start="2025-03-04" finish="2025-03-04" predecessorlink="32"/>
-                <task id="34" name="Day 28: UAT & Fixes" meeting="false" duration="1" complete="0" start="2025-03-05" finish="2025-03-05" predecessorlink="33"/>
+                <task id="34" name="Day 28: UAT and Fixes" meeting="false" duration="1" complete="0" start="2025-03-05" finish="2025-03-05" predecessorlink="33"/>
                 <task id="35" name="Day 29: Final Docs" meeting="false" duration="1" complete="0" start="2025-03-06" finish="2025-03-06" predecessorlink="34"/>
-                <task id="36" name="Day 30: GO-LIVE!" meeting="false" duration="1" complete="0" start="2025-03-07" finish="2025-03-07" predecessorlink="35"/>
-                <task id="37" name="🎉 MILESTONE: Project Complete" meeting="true" start="2025-03-07" finish="2025-03-07" predecessorlink="36"/>
+                <task id="36" name="Day 30: GO-LIVE" meeting="false" duration="1" complete="0" start="2025-03-07" finish="2025-03-07" predecessorlink="35"/>
+                <task id="37" name="MILESTONE: Project Complete" meeting="true" start="2025-03-07" finish="2025-03-07" predecessorlink="36"/>
             </task>
         </task>
     </tasks>
@@ -76,7 +76,7 @@
         <resource id="2" name="C# Developer" function="Default:1" contacts="" phone=""/>
         <resource id="3" name="Networking Specialist" function="Default:1" contacts="" phone=""/>
         <resource id="4" name="QA Tester" function="Default:1" contacts="" phone=""/>
-        <resource id="5" name="Admin/DevOps" function="Default:1" contacts="" phone=""/>
+        <resource id="5" name="Admin and DevOps" function="Default:1" contacts="" phone=""/>
     </resources>
     <allocations>
         <allocation task-id="2" resource-id="1" function="Default:1" responsible="true" load="100.0"/>
