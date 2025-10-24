@@ -1,129 +1,167 @@
-# LernLix - Deployment Guide für Self-Hosting
+# 🚀 LernLix Deployment Guide
 
-## 📋 Voraussetzungen
+## 📋 Vollständiger Leitfaden für Production-Deployment
 
-- HostUnlimited Account (oder vergleichbare VPS)
-- SSH Zugriff
-- Domain (optional aber empfohlen)
-- Node.js 18+ auf dem Server
+**Ziel:** LernLix vollständig auf einem Ubuntu-VPS zu deployen mit:
+- Node.js Backend
+- React Frontend
+- PostgreSQL Datenbank
+- Nginx Reverse Proxy
+- SSL/HTTPS mit Let's Encrypt
+- PM2 für Process Management
+- Automatische Backups
 
 ---
 
-## SCHRITT 1: Server-Setup
+## 🌍 Voraussetzungen
 
+### Server-Anforderungen:
+- Ubuntu 20.04+ oder 22.04
+- Mindestens 2GB RAM
+- 20GB Storage
+- Root oder sudo Zugriff
+
+### Domain:
+- Domain registriert (z.B. tellix.de)
+- DNS records korrekt konfiguriert
+
+---
+
+## ⚙️ SCHRITT 1: Server-Vorbereitung
+
+### 1.1 SSH Verbindung
 ```bash
-# SSH in den Server
-ssh root@your_vps_ip
+ssh root@45.133.9.167
+```
 
-# System aktualisieren
-apt update && apt upgrade -y
+### 1.2 System Update
+```bash
+apt-get update && apt-get upgrade -y
+```
 
-# Node.js installieren
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-apt install -y nodejs
-
-# PostgreSQL installieren
-apt install -y postgresql postgresql-contrib
-
-# PM2 installieren (Process Manager)
-npm install -g pm2
-
-# Nginx installieren (Reverse Proxy)
-apt install -y nginx
-
-# Git installieren
-apt install -y git
+### 1.3 Notwendige Tools installieren
+```bash
+apt-get install -y curl wget git build-essential
 ```
 
 ---
 
-## SCHRITT 2: Datenbank Setup
+## 📦 SCHRITT 2: Node.js Installation
 
+### 2.1 Node.js 18 installieren
 ```bash
-# PostgreSQL starten
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+apt-get install -y nodejs npm
+```
+
+### 2.2 Versionen prüfen
+```bash
+node --version  # sollte v18+ sein
+npm --version   # sollte 8+ sein
+```
+
+### 2.3 PM2 installieren (Process Manager)
+```bash
+npm install -g pm2
+pm2 startup
+```
+
+---
+
+## 🐘 SCHRITT 3: PostgreSQL Datenbank
+
+### 3.1 PostgreSQL installieren
+```bash
+apt-get install -y postgresql postgresql-contrib
+```
+
+### 3.2 PostgreSQL starten
+```bash
 systemctl start postgresql
 systemctl enable postgresql
+```
 
-# Als postgres User verbinden
-sudo -u postgres psql
-
-# In PostgreSQL Shell:
-CREATE DATABASE lernlix_prod;
-CREATE USER lernlix_user WITH PASSWORD 'your_secure_password';
-GRANT ALL PRIVILEGES ON DATABASE lernlix_prod TO lernlix_user;
-\q
+### 3.3 Datenbank & User erstellen
+```bash
+sudo -u postgres psql << EOF
+CREATE DATABASE lernlix;
+CREATE USER lernlix_user WITH PASSWORD 'secure_password_123';
+ALTER ROLE lernlix_user SET client_encoding TO 'utf8';
+ALTER ROLE lernlix_user SET default_transaction_isolation TO 'read committed';
+ALTER ROLE lernlix_user SET default_transaction_deferrable TO on;
+ALTER ROLE lernlix_user SET default_time_zone TO 'UTC';
+GRANT ALL PRIVILEGES ON DATABASE lernlix TO lernlix_user;
+\c lernlix
+GRANT ALL PRIVILEGES ON SCHEMA public TO lernlix_user;
+EOF
 ```
 
 ---
 
-## SCHRITT 3: Projekt klonen und installieren
+## 🔄 SCHRITT 4: Application Deployment
 
+### 4.1 Git Repository klonen
 ```bash
-# In /var/www Verzeichnis gehen
-cd /var/www
+cd /root
+git clone https://github.com/iTeLLiiX/LernLix.git
+cd LernLix
+```
 
-# Projekt klonen (oder hochladen)
-git clone https://github.com/your-repo/lernlix.git
-cd lernlix
-
-# Backend Setup
+### 4.2 Backend Setup
+```bash
 cd backend
 npm install
+```
 
-# .env für Production erstellen
-cat > .env << EOF
+### 4.3 Backend .env erstellen
+```bash
+cat > .env << 'EOF'
 NODE_ENV=production
 PORT=3001
-DB_NAME=lernlix_prod
-DB_USER=lernlix_user
-DB_PASSWORD=your_secure_password
 DB_HOST=localhost
 DB_PORT=5432
-JWT_SECRET=$(openssl rand -base64 32)
-JWT_EXPIRE=24h
-REFRESH_SECRET=$(openssl rand -base64 32)
-REFRESH_EXPIRE=7d
-CORS_ORIGIN=https://your-domain.com
-LOG_LEVEL=warn
+DB_NAME=lernlix
+DB_USER=lernlix_user
+DB_PASSWORD=secure_password_123
+JWT_SECRET=your_super_secret_jwt_key_change_this
+JWT_REFRESH_SECRET=your_super_secret_refresh_key_change_this
+JWT_EXPIRY=24h
+JWT_REFRESH_EXPIRY=7d
+CORS_ORIGIN=https://tellix.de
 EOF
+```
 
-# DB Setup durchführen
-psql -U lernlix_user -d lernlix_prod -f setup.sql
-
-# Backend mit PM2 starten
-pm2 start npm --name "lernlix-backend" -- run dev
+### 4.4 Backend mit PM2 starten
+```bash
+pm2 start npm --name "lernlix-backend" -- start
 pm2 save
-pm2 startup
+```
 
-# Frontend Build
+### 4.5 Frontend Build
+```bash
 cd ../frontend
 npm install
 npm run build
-
-# Build verifi zieren
-ls -la dist/
 ```
 
 ---
 
-## SCHRITT 4: Nginx als Reverse Proxy konfigurieren
+## 🌐 SCHRITT 5: Nginx Installation & Konfiguration
 
+### 5.1 Nginx installieren
 ```bash
-# Neue Nginx Config erstellen
-cat > /etc/nginx/sites-available/lernlix << 'EOF'
+apt-get install -y nginx
+systemctl start nginx
+systemctl enable nginx
+```
+
+### 5.2 Nginx Config erstellen
+```bash
+cat > /etc/nginx/sites-available/default << 'EOF'
 server {
-    listen 80;
-    server_name your-domain.com;
-
-    # Frontend (React)
-    location / {
-        root /var/www/lernlix/frontend/dist;
-        index index.html;
-        try_files $uri $uri/ /index.html;
-
-        add_header Cache-Control "public, max-age=3600";
-        add_header X-Content-Type-Options "nosniff";
-    }
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name tellix.de www.tellix.de 45.133.9.167;
 
     # Backend API
     location /api/ {
@@ -138,247 +176,259 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
-    # Sicherheits-Header
-    add_header X-Frame-Options "SAMEORIGIN" always;
-    add_header X-Content-Type-Options "nosniff" always;
-    add_header Referrer-Policy "no-referrer-when-downgrade" always;
+    # Frontend
+    location / {
+        root /root/LernLix/frontend/dist;
+        try_files $uri $uri/ /index.html;
+    }
 }
-
 EOF
+```
 
-# Config aktivieren
-ln -s /etc/nginx/sites-available/lernlix /etc/nginx/sites-enabled/
-rm /etc/nginx/sites-enabled/default
-
-# Nginx testen und neu starten
+### 5.3 Nginx testen & starten
+```bash
 nginx -t
 systemctl restart nginx
-systemctl enable nginx
 ```
 
 ---
 
-## SCHRITT 5: SSL/TLS mit Let's Encrypt
+## 🔒 SCHRITT 6: SSL/HTTPS mit Let's Encrypt
 
+### 6.1 Certbot installieren
 ```bash
-# Certbot installieren
-apt install -y certbot python3-certbot-nginx
+apt-get install -y certbot python3-certbot-nginx
+```
 
-# Zertifikat generieren
-certbot certonly --nginx -d your-domain.com
+### 6.2 SSL Zertifikat generieren
+```bash
+certbot certonly --nginx -d tellix.de -d www.tellix.de
+```
 
-# Auto-Renewal prüfen
+### 6.3 Nginx für HTTPS konfigurieren
+```bash
+cat > /etc/nginx/sites-available/default << 'EOF'
+server {
+    listen 80;
+    listen [::]:80;
+    server_name tellix.de www.tellix.de 45.133.9.167;
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name tellix.de www.tellix.de 45.133.9.167;
+
+    ssl_certificate /etc/letsencrypt/live/tellix.de/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/tellix.de/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+
+    # Backend API
+    location /api/ {
+        proxy_pass http://localhost:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Frontend
+    location / {
+        root /root/LernLix/frontend/dist;
+        try_files $uri $uri/ /index.html;
+    }
+}
+EOF
+```
+
+### 6.4 Nginx neustarten
+```bash
+nginx -t
+systemctl restart nginx
+```
+
+### 6.5 Automatische SSL-Erneuerung
+```bash
+certbot renew --dry-run
 systemctl enable certbot.timer
-
-# Nginx Config aktualisieren (manuell oder mit certbot)
-certbot --nginx -d your-domain.com
 ```
 
 ---
 
-## SCHRITT 6: Monitoring & Health Check
+## 🔥 SCHRITT 7: Firewall (UFW)
 
+### 7.1 UFW aktivieren
 ```bash
-# PM2 Monitoring installieren
-pm2 install pm2-logrotate
-pm2 install pm2-auto-pull
+ufw allow 22/tcp
+ufw allow 80/tcp
+ufw allow 443/tcp
+ufw enable
+```
 
-# Status prüfen
-pm2 status
-pm2 logs lernlix-backend
-
-# Health Check
-curl https://your-domain.com/api/health
+### 7.2 Status prüfen
+```bash
+ufw status
 ```
 
 ---
 
-## SCHRITT 7: Regelmäßige Backups
+## 💾 SCHRITT 8: Backups
 
+### 8.1 Backup-Skript erstellen
 ```bash
-# Backup-Script erstellen
-cat > /usr/local/bin/backup-lernlix.sh << 'EOF'
+mkdir -p /root/backups
+
+cat > /root/backup.sh << 'EOF'
 #!/bin/bash
+BACKUP_DIR="/root/backups"
+DATE=$(date +%Y%m%d_%H%M%S)
 
-BACKUP_DIR="/backups/lernlix"
-mkdir -p $BACKUP_DIR
+# Database Backup
+pg_dump -U lernlix_user lernlix > $BACKUP_DIR/lernlix_db_$DATE.sql
+gzip $BACKUP_DIR/lernlix_db_$DATE.sql
 
-# PostgreSQL Backup
-pg_dump -U lernlix_user lernlix_prod | gzip > $BACKUP_DIR/db_$(date +%Y%m%d_%H%M%S).sql.gz
+# Alte Backups löschen (älter als 7 Tage)
+find $BACKUP_DIR -type f -name "*.gz" -mtime +7 -delete
 
-# Projekt-Dateien Backup
-tar -czf $BACKUP_DIR/project_$(date +%Y%m%d_%H%M%S).tar.gz /var/www/lernlix
-
-# Alte Backups löschen (älter als 30 Tage)
-find $BACKUP_DIR -mtime +30 -delete
-
+echo "Backup erstellt: $DATE"
 EOF
 
-chmod +x /usr/local/bin/backup-lernlix.sh
+chmod +x /root/backup.sh
+```
 
-# Cron Job für täglich 02:00 Uhr
-echo "0 2 * * * /usr/local/bin/backup-lernlix.sh" | crontab -
+### 8.2 Cron Job für automatische Backups
+```bash
+crontab -e
+```
+
+Hinzufügen:
+```
+0 2 * * * /root/backup.sh >> /root/backups/backup.log 2>&1
 ```
 
 ---
 
-## SCHRITT 8: Sicherheit
+## ✅ SCHRITT 9: Testing & Monitoring
 
+### 9.1 Gesundheitsstatus prüfen
 ```bash
-# Firewall konfigurieren
-apt install -y ufw
+# Backend Health
+curl https://tellix.de/api/health
 
-ufw default deny incoming
-ufw default allow outgoing
-ufw allow 22/tcp    # SSH
-ufw allow 80/tcp    # HTTP
-ufw allow 443/tcp   # HTTPS
-ufw enable
-
-# Fail2ban installieren (DDoS-Schutz)
-apt install -y fail2ban
-systemctl enable fail2ban
-systemctl start fail2ban
-```
-
----
-
-## SCHRITT 9: Performance Tuning
-
-```bash
-# Nginx Worker Prozesse optimieren
-# /etc/nginx/nginx.conf:
-# worker_processes auto;
-# worker_connections 4096;
-
-# PostgreSQL Connection Pool
-# backend/.env:
-# DB_POOL_MAX=20
-
-# Logging deaktivieren in Production
-# backend/.env:
-# LOG_LEVEL=error
-```
-
----
-
-## ⚠️ Troubleshooting
-
-### Error: `Cannot find module`
-```bash
-cd /var/www/lernlix/backend
-npm install --production
-```
-
-### Error: `Database connection refused`
-```bash
-systemctl status postgresql
-systemctl restart postgresql
-```
-
-### Error: `502 Bad Gateway`
-```bash
-pm2 logs lernlix-backend
-pm2 restart lernlix-backend
-```
-
-### Nginx zeigt alte Dateien
-```bash
-# Cache leeren
-systemctl restart nginx
-# Client-Cache leeren: Ctrl+Shift+Delete im Browser
-```
-
----
-
-## Performance-Metriken
-
-Nach dem Setup überprüfen:
-
-```bash
-# CPU/Memory
-top
-
-# Festplatte
-df -h
-
-# Nginx Status
-curl http://localhost/stats
-
-# PM2 Status
+# Process Status
 pm2 status
-```
-
----
-
-## Aktualisierungen durchführen
-
-```bash
-# Code Update
-cd /var/www/lernlix
-git pull
-
-# Backend updaten
-cd backend
-npm install
-pm2 restart lernlix-backend
-
-# Frontend neu bauen
-cd ../frontend
-npm install
-npm run build
-
-# Nginx neu laden
-systemctl reload nginx
-```
-
----
-
-## Monitoring im Production
-
-```bash
-# Logs anschauen
 pm2 logs lernlix-backend
-tail -f /var/log/nginx/access.log
+```
 
-# Health Check API
-curl https://your-domain.com/api/health
-
-# DB Backups prüfen
-ls -lah /backups/lernlix/
+### 9.2 Logs überwachen
+```bash
+pm2 logs lernlix-backend
+tail -f /var/log/nginx/error.log
 ```
 
 ---
 
-## Kosten-Übersicht (Beispiel)
+## 🔧 Häufige Befehle
 
-| Service | Kosten | Notizen |
-|---------|--------|---------|
-| VPS (HostUnlimited) | $3-10/Mo | 2-4 GB RAM |
-| Domain | $10-15/Jahr | Optional |
-| SSL (Let's Encrypt) | Kostenlos | Auto-Renewal |
-| **GESAMT** | **$3-10/Mo** | Sehr günstig! |
+### PM2 Management
+```bash
+pm2 start npm --name "lernlix-backend" -- start  # Starten
+pm2 stop lernlix-backend                          # Stoppen
+pm2 restart lernlix-backend                       # Neustarten
+pm2 delete lernlix-backend                        # Löschen
+pm2 logs lernlix-backend                          # Logs anzeigen
+```
+
+### Nginx
+```bash
+systemctl start nginx
+systemctl stop nginx
+systemctl restart nginx
+systemctl reload nginx
+nginx -t  # Config testen
+```
+
+### PostgreSQL
+```bash
+sudo -u postgres psql lernlix  # In DB verbinden
+\dt                             # Tabellen anzeigen
+\q                              # Beenden
+```
 
 ---
 
-## ✅ Deployment Checklist
+## 🆘 Troubleshooting
 
-- [ ] Server Setup abgeschlossen
-- [ ] PostgreSQL läuft
-- [ ] Node.js Installation geprüft
-- [ ] Projekt geklont & gebaut
-- [ ] .env konfiguriert
-- [ ] PM2 startet Backend automatisch
-- [ ] Nginx lädt Frontend
-- [ ] SSL/TLS funktioniert
-- [ ] Backup-Script läuft
-- [ ] Firewall konfiguriert
-- [ ] Health Check erfolgreich
-- [ ] Domain zeigt auf VPS
+### Backend startet nicht
+```bash
+pm2 logs lernlix-backend
+# Prüfe:
+# 1. .env Datei vorhanden?
+# 2. Node.js Versio >= 18?
+# 3. PostgreSQL läuft?
+```
+
+### Website nicht erreichbar
+```bash
+# Firewall prüfen
+ufw status
+# Nginx Status
+systemctl status nginx
+# Ports prüfen
+netstat -tlnp
+```
+
+### SSL Zertifikat Problem
+```bash
+certbot renew --force-renewal
+systemctl restart nginx
+```
+
+### Datenbank-Fehler
+```bash
+sudo -u postgres psql
+\c lernlix
+\dt  # Tabellen prüfen
+```
 
 ---
 
-## 🎉 Produktionsserver ist bereit!
+## 📊 Monitoring & Maintenance
 
-Ihre LernLix-Plattform läuft jetzt professionell auf Ihrem eigenen Server!
+### Disk Space prüfen
+```bash
+df -h
+```
+
+### CPU & RAM
+```bash
+free -h
+top
+```
+
+### Logs rotieren
+```bash
+logrotate -f /etc/logrotate.conf
+```
+
+---
+
+## 🎉 Fertig!
+
+Die Anwendung sollte jetzt unter **https://tellix.de** erreichbar sein!
+
+### Nächste Schritte:
+1. ✅ Datenbank mit Modulen füllen
+2. ✅ Admin-Account erstellen
+3. ✅ Monitoring einrichten
+4. ✅ Regelmäßige Backups sicherstellen
+5. ✅ Performance-Optimierung
+
+**Support:** Bei Fragen, Slack/Discord/@iTeLLiiX
 
