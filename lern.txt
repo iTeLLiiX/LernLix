@@ -1,0 +1,479 @@
+CHRISTIAN-SCHMIDT-SCHULE
+TECHNISCHE SCHULE NECKARSULM
+C#
+.NET Framwork im Überblick
+Name: Klasse: Datum: Fach: Blatt Nr.:
+C#_Einführung  Elektroabteilung
+Das .NET Framework setzt auf der Betriebssystem-Ebene auf und bietet dadurch die
+Möglichkeit einmal erstellt .NET Anwendungen auf unterschiedlichen BetriebssystemPlattformen ausführen zu können. So gibt es neben der Implementierung für Windows auch
+das Projekt Mono, mit dem .NET Framework für andere Plattformen, u. a. für Linux und
+MacOS, zur Verfügung steht.
+.NET Framework selbst lässt sich grob in drei Komponenten aufteilen:
+Die Common Language Infrastructure (CLI) ist ein Regelwerk, das genau beschreibt, wie
+bestimmte Dinge im .NET Framework implementiert werden müssen. Die CLI ist also eine
+Spezifikation und besteht aus dem Common Type System (CTS) und der Common
+Language Specification (CLS). Das Common Type System legt für alle
+Programmiersprachen ein allgemeines Typsystem fest, das vorschreibt wie Datentypen zu
+implementieren sind. Die Common Language Specification wendet sich vor allem an Autoren
+von Compilern für Programmiersprachen und legt fest, wie der Quellcode von der
+Programmiersprache in die Sprache übersetzt wird, die dann von der Common Language
+Runtime ausgeführt werden kann.
+Die Common Language Runtime (CLR) stellt für Anwendungen eine Laufzeitumgebung zur
+Verfügung, in der diese kontrolliert ausgeführt werden.
+Die Framwork Class Library (FCL) ist eine Fundgrube von unterschiedlichsten, nützlichen
+und getesteten Funktionen, die sie in ihren Anwendungen verwenden können, um so
+schneller ans Ziel zu kommen.
+CHRISTIAN-SCHMIDT-SCHULE
+TECHNISCHE SCHULE NECKARSULM
+C#
+Hello World unter der Lupe
+Name: Klasse: Datum: Fach: Blatt Nr.:
+Hello_World  Elektroabteilung
+Das Programm „Hello World“
+Die using-Direktiven
+In den ersten 4 Programmzeilen wird das C#-Schlüsselwort using verwendet, gefolgt von den
+Namen der Klassenbibliotheken, die in die Quelldatei importiert werden sollen.
+Bei Klassenbibliotheken handelt es sich um eine Sammlung von vielen nützlichen
+Funktionen, die Bestandteil von .NET Framework sind, die Sie in Ihren Programmen
+verwenden können, die Sie aber nicht selbst programmieren müssen.
+Die namespace-Direktive
+Während Sie in C# eigene Programme erstellen, erstellen Sie permanent Namen: Namen für
+Klassen, Namen für Methoden, Namen für Variablen usw. Um mögliche
+Verwechslungsgefahren zu umgehen, werden in .NET Framework Namensräume verwendet,
+um den Gültigkeitsbereich der Namen zu steuern und zu organisieren.
+Die Klasse Program
+In .NET sind alle Typen Klassen, was daher kommt, dass es sich beim .NET Framework um
+ein objektorientiertes, klassenbasiertes Framework handelt. Alle Methoden und andere
+Typen müssen innerhalb von Klassen definiert werden. Dies trifft auch auf das kleine
+Beispielprogramm zu, das die Klasse Program definiert. Program ist der
+Standardklassenname, den die IDE zuweist, wenn Sie eine Konsolenanwendung erstellen.
+Die Klassenmethode Main
+In der Klasse Program unseres Beispielprogramms gibt es genau eine Methode, und zwar
+die Methode Main. Die Methode Main ist der Einstiegspunkt für jede Konsolenanwendung
+und muss immer vorhanden sein.
+CHRISTIAN-SCHMIDT-SCHULE
+TECHNISCHE SCHULE NECKARSULM
+C#
+Variablen, Datentypen und Operatoren
+Name: Klasse: Datum: Fach: Blatt Nr.:
+Variablen  Elektroabteilung
+Grob lassen sich in C# folgende einfache Datentypen unterscheiden:
+ Boolscher Datentyp, dieser kann die Werte true und false (wahr und falsch)
+annehmen. Der C#-Datentyp heißt bool.
+ Ganzzahlige oder Integer-Datentypen (in diesen Variablen können ganze Zahlen
+gespeichert werden, wie 456). C# kennt mehrere Integer-Datentypen, die sich dadurch
+unterscheiden, wie groß die Zahlen sein können, die in Variablen des jeweiligen Typs
+gespeichert werden können; dies wird Wertebereich genannt. Ein weiteres
+Unterscheidungskriterium ist, ob in den Variablen nur positive Zahlen (Ganzzahlen
+ohne Vorzeichen, in Englisch »unsigned integers« -daher das Präfix u bei einigen der
+Datentypen) oder vorzeichenbehaftete Ganzzahlen (in Englisch »signed integers{(, zu
+erkennen am Präfix s). Eine Übersicht finden Sie in untenstehender Tabelle. In den
+meisten Fällen können Sie den C#-Typ int verwenden, wenn Sie eine Ganzzahl in
+Ihrem Programm benötigen.
+ Fließkommazahlen (Variablen, in denen gebrochene Zahlen gespeichert werden, wie
+3,456). C# kennt die Fließkommadatentypen double, float und decimal. Neben der
+Größe der Zahlen, die in den Variablen der unterschiedlichen Datentypen gespeichert
+werden können, unterscheiden sie sich noch in der Genauigkeit (wieviele
+Nachkommastellen werden gespeichert). Eine Aufstellung finden Sie unten in der
+Tabelle. Auch hier gilt, dass Sie bei den ersten Programmen gut zurechtkommen,
+wenn Sie den Datentyp double verwenden.
+ Zeichenketten (auch Zeichenfolgen genannt), in denen Text gespeichert werden kann
+(wie "Rainer"). Hierfür wird der C#-Datentyp string verwendet, Zeichenketten werden
+in Anführungszeichen eingeschlossen, wie Sie es beim Hello-World-Beispiel bereits
+gesehen haben.
+CHRISTIAN-SCHMIDT-SCHULE
+TECHNISCHE SCHULE NECKARSULM
+C#
+Variablen, Datentypen und Operatoren
+Name: Klasse: Datum: Fach: Blatt Nr.:
+Variablen  Elektroabteilung
+CHRISTIAN-SCHMIDT-SCHULE
+TECHNISCHE SCHULE NECKARSULM
+C#
+Variablen, Datentypen und Operatoren
+Name: Klasse: Datum: Fach: Blatt Nr.:
+Variablen  Elektroabteilung
+Namen für Variablen
+ Namen für Variablen unterliegen einigen einfachen Regeln, an die Sie sich halten
+müssen, da diese in der Sprachdefinition von C# so festgelegt sind:
+ Variablennamen müssen mit Unterstrich oder einem Buchstaben beginnen.
+ Variablennamen dürfen Buchstaben, Ziffern und den Unterstrich enthalten.
+ Leerzeichen sind in Variablennamen nicht erlaubt.
+ Der Compiler unterscheidet bei Variablennamen (wie auch bei allen anderen
+Bezeichnern), die Groß-und Kleinschreibung.
+ Sie dürfen keines der reservierten C#-Schlüsselwörter verwenden (siehe
+nachfolgende Tabelle).
+Tabelle: Reservierte Schlüsselwörter in C#
+abstract event new struct
+as expficit null switch
+base extern object this
+bool false operator throw
+break finally out true
+byte fixed override try
+case float params typeof
+catch for private uint
+char foreach protected ulong
+checked goto public unchecked
+classe if readonly unsafe
+const implicit ref ushort
+continue In return using
+decimal int sbyte virtual
+default interface sealed volatile
+delegate internal short void
+do is sizeof while
+double lock stackalloc
+else long static
+enum namespace string
+CHRISTIAN-SCHMIDT-SCHULE
+TECHNISCHE SCHULE NECKARSULM
+C#
+Variablen, Datentypen und Operatoren
+Name: Klasse: Datum: Fach: Blatt Nr.:
+Variablen  Elektroabteilung
+CHRISTIAN-SCHMIDT-SCHULE
+TECHNISCHE SCHULE NECKARSULM
+C#
+Variablen, Datentypen und Operatoren
+Name: Klasse: Datum: Fach: Blatt Nr.:
+Variablen  Elektroabteilung
+Operatoren
+CHRISTIAN-SCHMIDT-SCHULE
+TECHNISCHE SCHULE NECKARSULM Übung zu Operatoren
+Name: Klasse: Datum: Fach: Blatt Nr.: 1
+Operatoren  Elektroabteilung
+1. Erstellen Sie ein neues Projekt des Typs Konsolenanwendung und nennen Sie es
+ArithmetischeOperatoren.
+2. Geben Sie den folgenden Programmcode in die Main-Methode ein, um etwas Übung
+beim Schreiben von Programmen zu bekommen.
+ static void Main(string[] args)
+ {
+
+ // Deklaration der Variablen
+ int intOp1, intOp2, intResult;
+ double doubleOp1, doubleOp2, doubleResult;
+ // Initialisierung der Operanden
+ intOp1 = 9;
+ intOp2 = 4;
+ doubleOp1 = 3.5;
+ doubleOp2 = 1.2;
+ // Berechnungen ausführen und Ergebnisse anzeigen
+ // 1. Addition
+ intResult = intOp1 + intOp2;
+ Console.WriteLine("{0}+{1}={2}", intOp1, intOp2, intResult);
+ doubleResult = doubleOp1 + doubleOp2;
+ Console.WriteLine("{0}+{1}={2}" + System.Environment.NewLine,
+ doubleOp1, doubleOp2, doubleResult);
+
+ // 2. Subtraktion
+ intResult = intOp1 - intOp2;
+ Console.WriteLine("{0}-{1}={2}", intOp1, intOp2, intResult);
+ doubleResult = doubleOp1 - doubleOp2;
+ Console.WriteLine("{0}-{1}={2}" + System.Environment.NewLine,
+ doubleOp1, doubleOp2, doubleResult);
+ // 3. Multiplikation
+ intResult = intOp1 * intOp2;
+ Console.WriteLine("{0}*{1}={2}", intOp1, intOp2, intResult);
+ doubleResult = doubleOp1 * doubleOp2;
+ Console.WriteLine("{0}*{1}={2}" + System.Environment.NewLine,
+ doubleOp1, doubleOp2, doubleResult);
+ // 4. Division
+ intResult = intOp1 / intOp2;
+ Console.WriteLine("{0}/{1}={2}", intOp1, intOp2, intResult);
+ doubleResult = doubleOp1 / doubleOp2;
+ Console.WriteLine("{0}/{1}={2}" + System.Environment.NewLine,
+ doubleOp1, doubleOp2, doubleResult);
+ }
+ }
+}
+CHRISTIAN-SCHMIDT-SCHULE
+TECHNISCHE SCHULE NECKARSULM
+Übungen zu Variablen,
+Datentypen und Operatoren
+Name: Klasse: Datum: Fach: Blatt Nr.: 1
+Übungen VDO  Elektroabteilung
+Übung 1: Welche der folgenden Variablennamen sind nicht gültig?
+int idnumber;
+int transaction_number;
+int __my_phone_number__;
+float 4myfriend;
+float its4me;
+double VeRyStRaNgE;
+float while;
+float ,myCash;
+int CaseNo;
+int CASENO;
+int caseno;
+Übung 2: Erstellen Sie einen Mini Rechner der Multiplikationen durchführt?
+Übung 3: Erstellen Sie ein neues Projekt und nennen Sie es SystemExplorer. Verwenden
+Sie Eigenschaften der Klasse System.Environment und geben Sie den Namen
+des Computers, den Namen des angemeldeten Benutzers und die Anzahl der
+Prozessoren im System aus.
+Übung 4: Lassen Sie die folgenden Codezeilen kompilieren? Begründen Sie Ihre Antwort:
+int x = 32768;
+long y = 1;
+x = y;
+Übung 5: Wie könnten Sie die folgende Codezeile umschreiben und dabei einen
+zusammengesetzten Zuweisungsoperator verwenden?
+i = i * 34;
+Übung 6: Welche Zahl wird von folgendem Codefragment ausgegeben?
+int i = 34;
+Console.WriteLine("{0}", ++i);
+CHRISTIAN-SCHMIDT-SCHULE
+TECHNISCHE SCHULE NECKARSULM
+Übungen zu Variablen,
+Datentypen und Operatoren
+Name: Klasse: Datum: Fach: Blatt Nr.: 2
+Übungen VDO  Elektroabteilung
+Lösung 1:
+float 4myfriend;
+float while;
+float ,myCash;
+Begründung:
+ Variablennamen dürfen nicht mit einer Zahl beginnen
+ Variablennamen dürfen keines der C#-Schlüsselwörter sein
+ Variblennamen dürfen nicht mit einem Komma beginnen
+Lösung 2:
+static void Main()
+{
+ int operand1, operand2;
+ Console.WriteLine("Geben Sie den ersten Operanden ein ");
+ operand1 = int.Parse(Console.ReadLine());
+ Console.WriteLine("Geben Sie den zweiten Operanden ein ");
+ operand2 = int.Parse(Console.ReadLine());
+ Console.WriteLine("Das Produkt ist: " + (operand1 * operand2) );
+}
+Lösung 3:
+using System;
+using System.Collections.Generic;
+using System.Text;
+namespace SystemExplorer
+{
+ class Program
+ {
+ static void Main(string[] args)
+ {
+ Console.WriteLine("Computername: " +
+ System.Environment.MachineName);
+ Console.WriteLine("Benutzername: " +
+ System.Environment.UserName);
+ Console.WriteLine("Anzahl der Prozessoren: " +
+ System.Environment.ProcessorCount);
+ }
+ }
+}
+CHRISTIAN-SCHMIDT-SCHULE
+TECHNISCHE SCHULE NECKARSULM
+Übungen zu Variablen,
+Datentypen und Operatoren
+Name: Klasse: Datum: Fach: Blatt Nr.: 3
+Übungen VDO  Elektroabteilung
+Lösung 4:
+Nein. Dieser Code läßt sich nicht kompilieren. Die dritte Zeile enthält einen Fehler
+Begründung:
+Bei der Zuweisung einer Variablen des Typs long an eine Variable des Typs int könnten
+Informationen verloren gehen. Daher nimmt der Compiler keine implizite Typumwandlung
+vor. Um die Zuweisung kompilieren zu können, müssen Sie den Operanden auf der rechten
+Seite der Zuweisung in den Typ int umwandeln.
+x = (int) y;
+Lösung 5:
+CHRISTIAN-SCHMIDT-SCHULE
+TECHNISCHE SCHULE NECKARSULM
+C#
+Typumwandlungen im Überblick
+Name: Klasse: Datum: Fach: Blatt Nr.: 1
+Typumwandlungen  Elektroabteilung
+Text in Zahl umwandeln
+Um eine Zahl, die in einer Stringvariablen vorliegt, in eine Variable eine der Zahlentypen
+umzuwandeln, verwenden Sie die Parse-Methode des gewünschten Zahlendatentyps. Das
+sieht dann beispielsweise so aus:
+string intString = "4", doubleString = "3,3";
+int intNumber;
+double doub1eNumber;
+intNumber = int.Parse(intString);
+doubleNumber = double.Parse(doubleString);
+Zahl in Text umwandeln
+Alle Datentypen, die eine Zahl darstellen, besitzen eine Methode mit dem Namen ToStri ng,
+mit der die Zahl in eine Zeichenkette umgewandelt werden kann. Hierzu ein Beispiel:
+int intNumber = 40;
+string s =intNumber.ToString();
+Geben Sie den Namen der Variablen an, die umgewandelt werden soll, verwenden Sie dann
+die Methode ToString und weisen Sie den Rückgabewert beispielsweise einer Variablen des
+Typs string zu. Sie können ToString bei allen Datentypen, in denen eine Zahl gespeichert
+wird, verwenden.
+Zahl eines Datentyps in eine Zahl eines anderen Datentyps umwandeln
+Die dritte mögliche Typumwandlung besteht darin, eine Zahl eines Datentyps in einen
+anderen umzuwandeln. Hierbei müssen Sie beachten, dass der Datentyp, in den
+umgewandelt wird, die umzuwandelnde Zahl aufnehmen kann (siehe Datentypen). Wenn der
+Wertebereich des Zieldatentyps größer ist, dann reicht es aus, einfach eine Zuweisung zu
+verwenden. Der Compiler nimmt dann eine implizite Typumwandlung vor. Wenn der
+Wertebereich des Zieldatentyps kleiner ist, und damit bei der Umwandlung Verluste auftreten
+können, lässt sich der Code nicht kompilieren; es sei denn, Sie nehmen eine explizite
+Typumwandlung vor, indem Sie den Zieldatentyp, von runden Klammern eingefasst, vor den
+Namen der umzuwandelnden Variablen schreiben. Auch wenn dann ein Informationsverlust
+auftritt, lässt sich der Code so kompilieren und ausführen. Der Compiler geht bei einer
+expliziten Typumwandlung davon aus, dass Sie sich über den möglichen Informationsverlust
+im Klaren sind.
+CHRISTIAN-SCHMIDT-SCHULE
+TECHNISCHE SCHULE NECKARSULM
+C#
+Typumwandlungen im Überblick
+Name: Klasse: Datum: Fach: Blatt Nr.: 2
+Typumwandlungen  Elektroabteilung
+Hier ein paar Beispiele:
+/* Der Wertebereich des Zieldatentyps ist größer, die Umwandlung kann ohne
+Verluste vorgenommen werden. Der Compiler nimmt eine implizite Typkonvertierung
+vor.*/
+short a = 35;
+int b =a;
+int c =3;
+double d =c;
+/* Die zweite Zeile läßt sich nicht kompilieren, da die implizite Typumwandlung
+möglicherweise mit dem Verlust von Informationen einhergeht. Der Compiler
+informiert Sie hierüber in dem Fehlerfenster.*/
+int e =32000;
+short d = e;
+/* Wenn Sie eine explizite Typumwandlung vornehmen, erlaubt der Compiler, trotz
+möglichen Informationsverlustes, die Typkonvertierung.*/
+int f =32000;
+short g =(short) f; 
+
+
+Prüfungsthemen Netzwerktechnik – Kurzüberblick
+2-Faktoren-Authentifizierung
+Ein Sicherheitsverfahren, bei dem zwei verschiedene Nachweise zur Identifikation verwendet werden –
+z. B. Passwort und Smartphone-Code.
+AAA
+Steht für Authentication, Authorization, Accounting – das Konzept zur Kontrolle von Benutzerzugriffen in
+Netzwerken.
+ACL
+Access Control List – regelt, welche Datenpakete durchgelassen oder blockiert werden.
+ACL / Firewall
+Eine Firewall nutzt ACLs, um den Datenverkehr zwischen Netzwerken zu steuern und zu schützen.
+ARP
+Address Resolution Protocol – ermittelt die MAC-Adresse zu einer bekannten IP-Adresse im lokalen
+Netzwerk.
+Batch (Windows Batch / Skriptanalyse)
+Automatisierte Ausführung von Befehlen in Windows, meist zur System- oder Netzwerkanalyse.
+Cloud Computing / Cyberphys. System / GPS-Tracker
+Cloud-Dienste ermöglichen Rechenleistung aus dem Internet. Cyberphysische Systeme kombinieren IT
+und Mechanik. GPS-Tracker nutzen Satelliten zur Positionsbestimmung.
+Core Layer
+Das Herzstück eines Netzwerks – verbindet die verschiedenen Verteilungs- und Zugangsschichten mit
+hoher Geschwindigkeit.
+CPS
+Cyber Physical Systems – vernetzte Systeme, die physische Prozesse über Sensoren und Software
+steuern.
+DHCP / APIPA
+DHCP vergibt automatisch IP-Adressen. APIPA weist sich selbst Adressen im Bereich 169.254.x.x zu,
+wenn kein DHCP-Server erreichbar ist.
+DNS
+Domain Name System – übersetzt Domainnamen (z. B. www.example.de) in IP-Adressen.
+DMZ
+Demilitarisierte Zone – separates Netzwerksegment für öffentlich erreichbare Server, um interne Netze
+zu schützen.
+Dual-Stack
+Betrieb von IPv4 und IPv6 gleichzeitig, um Kompatibilität sicherzustellen.
+Datenmenge
+Bezeichnet die Menge an übertragenen oder gespeicherten Daten – wichtig für Bandbreitenplanung und
+Speicherbedarf.
+Dynamisch
+Bezieht sich auf Systeme oder Adressen, die sich automatisch ändern oder anpassen, z. B. dynamische
+IPs.
+ESP / HA
+Encapsulating Security Payload (IPsec) schützt Datenpakete. HA (High Availability) steht für
+hochverfügbare Systeme mit minimaler Ausfallzeit.
+EUI64
+Ein Verfahren zur automatischen IPv6-Adressbildung basierend auf der MAC-Adresse.
+FQDN
+Fully Qualified Domain Name – vollständiger Domainname inklusive Host- und Domainteil (z. B.
+server.firma.de).
+Firewall
+Überwacht und filtert den Datenverkehr zwischen Netzwerken nach festgelegten Regeln.
+High Availability
+Systemdesign zur Gewährleistung maximaler Betriebszeit durch Redundanz und Fehlertoleranz.
+IoT
+Internet of Things – vernetzte Geräte, die Daten austauschen und Prozesse automatisieren.
+IP / WAN
+Weitverkehrsnetzwerke verbinden mehrere Standorte über große Entfernungen mittels IP-Protokollen.
+IPv4
+Die klassische 32-Bit-Adressierung im Internet, z. B. 192.168.0.1.
+IPv4 & IPv6
+Kombinierter Betrieb beider IP-Versionen zur schrittweisen Umstellung auf IPv6.
+IPv4 Subnetting
+Aufteilen eines Netzwerks in kleinere logische Teilnetze, um Adressen effizienter zu nutzen.
+IPv4 VLSM
+Variable Length Subnet Mask – erlaubt unterschiedlich große Subnetze im selben Netzwerk.
+IPv6
+Nachfolger von IPv4 mit 128-Bit-Adressen, bietet mehr Adressen und integrierte Sicherheitsfunktionen.
+IPv6 Subnetting
+Aufteilen von IPv6-Netzwerken in logisch getrennte Teilbereiche.
+IPv6 Subnett VPN
+Ein VPN mit IPv6-Unterstützung für sicheren, verschlüsselten Datenverkehr über öffentliche Netze.
+JSON
+JavaScript Object Notation – textbasiertes Datenformat für strukturierte Datenaustausche.
+Kanäle
+Kommunikationswege oder Frequenzbereiche zur Datenübertragung, z. B. bei WLAN.
+Kabel
+Physische Verbindungselemente in Netzwerken, z. B. Kupfer (Cat6) oder Glasfaser.
+Layer 3
+Schicht 3 des OSI-Modells – Vermittlungsschicht, zuständig für Routing und IP-Adressen.
+L3 Switch
+Ein Switch, der zusätzlich Routing-Funktionen auf Layer 3 übernimmt.
+MQTT
+Leichtgewichtiges Publish/Subscribe-Protokoll für IoT-Kommunikation.
+Namenskürzel
+Abkürzungen oder Kennungen, die Geräte oder Benutzer eindeutig identifizieren.
+Next hop
+Der nächste Router auf dem Weg eines Datenpakets zum Ziel.
+OSI
+Open Systems Interconnection – Referenzmodell mit sieben Schichten zur Netzwerkbeschreibung.
+Ping
+Netzwerkbefehl zum Prüfen der Erreichbarkeit eines Hosts und Messung der Antwortzeit.
+PoE
+Power over Ethernet – überträgt Strom und Daten gleichzeitig über ein Netzwerkkabel.
+Proxy
+Server, der Anfragen entgegennimmt und im Auftrag des Clients weiterleitet – erhöht Sicherheit und
+Kontrolle.
+RAID
+Redundant Array of Independent Disks – kombiniert mehrere Festplatten für höhere Ausfallsicherheit
+oder Leistung.
+RADIUS
+Authentifizierungsprotokoll für zentralen Netzwerkzugriff, häufig in WLANs und VPNs.
+Routing
+Weiterleitung von Datenpaketen über Netzwerke anhand von Routingtabellen.
+Schutzbedarf
+Bewertung, wie stark Daten oder Systeme vor Verlust, Missbrauch oder Ausfall geschützt werden
+müssen.
+Servervirtualisierung
+Betrieb mehrerer virtueller Server auf einer physischen Maschine zur Ressourceneffizienz.
+Snapshot
+Momentaufnahme eines Systems oder Datenträgers zur schnellen Wiederherstellung.
+SNMP
+Simple Network Management Protocol – dient zur Überwachung und Steuerung von Netzwerkgeräten.
+STP
+Spanning Tree Protocol – verhindert Schleifen in redundanten Netzwerken.
+Subnetting
+Allgemeine Technik zur Unterteilung von Netzwerken in kleinere Segmente.
+Switch
+Verbindet Geräte innerhalb eines Netzwerks und leitet Datenpakete gezielt weiter.
+Systemanalyse Windows Batch
+Überprüfung und Optimierung automatisierter Windows-Skripte.
+Scripting (Batch / dynamisch)
+Automatisierung von Abläufen durch Befehls- oder Shellskripte.
+USV
+Unterbrechungsfreie Stromversorgung – schützt Geräte vor Stromausfall und Spannungsspitzen.
+Verschlüsselung
+Verfahren zum Schutz von Daten vor unbefugtem Zugriff.
+Virtualisierung
+Erstellung virtueller Maschinen oder Netzwerke zur besseren Ressourcennutzung.
+VLAN
+Virtuelles LAN – ermöglicht logische Netzwerksegmentierung unabhängig von physischer Verkabelung.
+VPN
+Virtuelles privates Netzwerk – verschlüsselte Verbindung über das Internet zu einem entfernten
+Netzwerk.
+VLSM IPv4
+Variable Length Subnet Masking bei IPv4 – flexible Subnetzgrößen zur besseren Adressnutzung.
+WLAN
+Drahtloses lokales Netzwerk zur Datenübertragung über Funk.
+WPA3
+Aktuellster WLAN-Sicherheitsstandard mit verbesserter Verschlüsselung.

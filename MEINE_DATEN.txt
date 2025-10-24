@@ -1,0 +1,154 @@
+===============================================
+🚀 LERNLIX - MEINE PERSÖNLICHEN DATEN
+===============================================
+
+📌 DOMAIN INFORMATIONEN:
+───────────────────────────────────────────────
+Domain:                tellix.de
+Provider:              STRATO
+Status:                ✅ Gekauft
+DNS Einstellungen:     Noch nicht konfiguriert
+
+
+📌 SERVER INFORMATIONEN: ✅ AKTIV!
+───────────────────────────────────────────────
+Provider:              Host-Unlimited (LXC)
+Status:                ✅ ONLINE!
+Server Name:           vm-node-25
+Server Typ:            LXC (Virtual Machine)
+Root User:             root
+Root Passwort:         kcw6fiaf8rbskq9hitcgfj8f9w3evd ✅ GESPEICHERT!
+Server IP (IPv4):      45.133.9.167 ✅ GESPEICHERT!
+Server IP (IPv6):      2a13:fd40:1:2::255
+Gateway IPv4:          45.133.9.1
+Gateway IPv6:          2a13:fd40:1:2::1
+MAC Adresse:           8B:47:E1:FC:1F:77
+Server OS:             Ubuntu 20.04 LTS (erwartet)
+RAM:                   2 GB (empfohlen)
+SSD:                   50 GB (empfohlen)
+
+
+📌 SSH VERBINDUNG:
+───────────────────────────────────────────────
+SSH Command:           ssh root@45.133.9.167
+SSH User:              root
+SSH Password:          kcw6fiaf8rbskq9hitcgfj8f9w3evd
+SSH Port:              22 (standard)
+
+
+📌 GITHUB INFORMATIONEN:
+───────────────────────────────────────────────
+GitHub Account:        [Dein Username]
+GitHub Repo:           https://github.com/[USERNAME]/lernlix
+Repository Status:     ⏳ Noch zu erstellen
+Branch:                main
+
+
+📌 WICHTIGE URLs:
+───────────────────────────────────────────────
+Control Panel:         https://c-area.host-unlimited.de/my/user/self
+Domain Manager:        (Nach Login bei STRATO)
+DNS Management:        (In Domain Manager)
+Final App:             https://tellix.de
+Server Direct:         ssh root@45.133.9.167
+
+
+📌 NÄCHSTE SCHRITTE - IN DIESER REIHENFOLGE:
+───────────────────────────────────────────────
+
+✅ SCHRITT 1: HOST-UNLIMITED PANEL CHECK - FERTIG!
+├─ IP Adresse: 45.133.9.167 ✅
+├─ Root Passwort: kcw6fiaf8rbskq9hitcgfj8f9w3evd ✅
+└─ Status: ONLINE ✅
+
+⏳ SCHRITT 2: DNS RECORDS SETZEN (5 min)
+├─ Im Panel: "Domains"
+├─ Klick: "tellix.de"
+├─ Klick: "DNS verwalten"
+├─ Neue Records hinzufügen:
+│  
+│  Record 1:
+│  - Typ: A
+│  - Name: @
+│  - Value: 45.133.9.167 ← DEINE IP!
+│  
+│  Record 2:
+│  - Typ: A
+│  - Name: www
+│  - Value: 45.133.9.167 ← DEINE IP!
+│
+├─ SPEICHERN!
+└─ Warte 10-30 Minuten auf DNS Propagation
+
+⏳ SCHRITT 3: GITHUB SETUP (10 min)
+├─ Öffne: https://github.com/signup (falls kein Account)
+├─ Erstelle Repository: "lernlix"
+└─ Speichern die URL
+
+⏳ SCHRITT 4: SETUP DURCHLAUFEN (2-3 Stunden MORGEN)
+├─ Öffne Datei: COMPLETE_SETUP_STEPS.md
+├─ Folge JEDEM Schritt der Reihe nach
+├─ Kopiere Commands genau
+└─ Nach jedem Schritt: Erfolgreich? (Grün oder OK?)
+
+⏳ SCHRITT 5: TESTEN (10 min)
+├─ Browser öffnen
+├─ Gehe zu: https://tellix.de
+└─ Login-Seite sollte erscheinen = ✅ ERFOLG!
+
+
+📌 WICHTIGE KOMMANDOS (Für später):
+───────────────────────────────────────────────
+
+SSH Login:
+ssh root@45.133.9.167
+(Passwort: kcw6fiaf8rbskq9hitcgfj8f9w3evd)
+
+Status Check (auf dem Server):
+pm2 status
+systemctl status nginx postgresql
+
+Logs anschauen:
+pm2 logs
+
+Server neu starten (wenn nötig):
+systemctl restart nginx
+pm2 restart all
+
+Backup manuell:
+/backups/lernlix/backup.sh
+
+
+📌 ZEITPLAN:
+───────────────────────────────────────────────
+
+✅ HEUTE (JETZT):
+├─ 10 min: Host-Unlimited Panel Check - FERTIG!
+├─ 5 min: DNS Records setzen - NÄCHST!
+└─ 5 min: GitHub Setup - DANACH!
+
+⏳ 10-30 MIN SPÄTER:
+├─ DNS Update läuft
+└─ Du kannst andere Sachen machen
+
+⏳ MORGEN/ÜBERMORGEN (2-3 Stunden):
+├─ Schritt 1-20 durchgehen (COMPLETE_SETUP_STEPS.md)
+├─ Nach Schritt 18: Testen ob tellix.de lädt
+└─ FERTIG! App läuft! 🎉
+
+
+📌 DEINE NÄCHSTE AKTION:
+───────────────────────────────────────────────
+➡️  Gehe JETZT zu SCHRITT 2: DNS RECORDS SETZEN!
+➡️  Öffne: HOST_UNLIMITED_GUIDE.md (Abschnitt 5.2 & 5.3)
+➡️  Oder folge den Anweisungen oben!
+➡️  ERSETZE überall: "DEINE_SERVER_IP" durch: 45.133.9.167
+
+
+===============================================
+✨ DU SCHAFFST DAS! ALLES IST BEREIT! ✨
+===============================================
+
+Speicherdatum: 24.10.2024 - UPDATE!
+Status: ✅ Phase 1 ABGESCHLOSSEN - Phase 2 LÄUFT
+Nächste Aktion: DNS RECORDS SETZEN!
