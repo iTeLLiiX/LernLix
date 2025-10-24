@@ -9,6 +9,7 @@ const logger = require('./config/logger');
 const { authenticateJWT } = require('./middleware/auth');
 const errorHandler = require('./middleware/errorHandler');
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/users');
 const modulesRoutes = require('./routes/modules');
 const progressRoutes = require('./routes/progress');
 
@@ -32,6 +33,7 @@ app.get('/api/health', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/modules', modulesRoutes);
 app.use('/api/progress', authenticateJWT, progressRoutes);
 
@@ -45,7 +47,7 @@ const start = async () => {
   try {
     await sequelize.authenticate();
     logger.info('Database connected');
-    
+
     await sequelize.sync({ alter: false });
     logger.info('Models synchronized');
 

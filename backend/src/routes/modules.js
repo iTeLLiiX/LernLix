@@ -1,33 +1,25 @@
-import express from 'express';
-import { Module } from '../models/Module.js';
-import logger from '../config/logger.js';
-
+const express = require('express');
 const router = express.Router();
+const { getAllModules, getModule, createModule, updateModule, deleteModule, getModulesByCategory } = require('../controllers/moduleController');
+const { authenticateJWT } = require('../middleware/auth');
 
-// Alle Module abrufen (mit optionalem Category-Filter)
-router.get('/', async (req, res) => {
-  try {
-    const { category } = req.query;
-    const where = category ? { category } : {};
-    const modules = await Module.findAll({ where, order: [['orderInCategory', 'ASC']] });
-    res.json(modules);
-  } catch (err) {
-    logger.error('Fetch modules error:', err);
-    res.status(500).json({ error: err.message });
-  }
-});
+// Get all modules
+router.get('/', getAllModules);
 
-// Einzelnes Modul abrufen
-router.get('/:id', async (req, res) => {
-  try {
-    const module = await Module.findByPk(req.params.id);
-    if (!module) return res.status(404).json({ error: 'Module not found' });
-    res.json(module);
-  } catch (err) {
-    logger.error('Fetch module error:', err);
-    res.status(500).json({ error: err.message });
-  }
-});
+// Get modules by category
+router.get('/category/:category', getModulesByCategory);
 
-export default router;
+// Get single module
+router.get('/:id', getModule);
+
+// Create module (Admin only)
+router.post('/', authenticateJWT, createModule);
+
+// Update module (Admin only)
+router.put('/:id', authenticateJWT, updateModule);
+
+// Delete module (Admin only)
+router.delete('/:id', authenticateJWT, deleteModule);
+
+module.exports = router;
 
