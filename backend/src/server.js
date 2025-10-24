@@ -12,6 +12,7 @@ const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
 const modulesRoutes = require('./routes/modules');
 const progressRoutes = require('./routes/progress');
+const adminRoutes = require('./routes/admin');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -36,6 +37,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/modules', modulesRoutes);
 app.use('/api/progress', authenticateJWT, progressRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.use(errorHandler);
 

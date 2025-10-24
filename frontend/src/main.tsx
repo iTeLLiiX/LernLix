@@ -4,9 +4,11 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import './main.css'
 import './auth.css'
 import './dashboard.css'
+import './admin.css'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import DashboardPage from './pages/DashboardPage'
+import AdminModulePage from './pages/AdminModulePage'
 
 interface Module {
   id: string
@@ -236,6 +238,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/admin/modules" element={<AdminModulePage />} />
       </Routes>
     </Router>
   )
