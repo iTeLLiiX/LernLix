@@ -3,8 +3,10 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import './main.css'
 import './auth.css'
+import './dashboard.css'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
+import DashboardPage from './pages/DashboardPage'
 
 interface Module {
   id: string
@@ -233,7 +235,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/dashboard" element={<div style={{ padding: '2rem', textAlign: 'center', color: '#e0e0e0' }}>Dashboard - Coming Soon 🎉</div>} />
+        <Route path="/dashboard" element={<DashboardPage />} />
       </Routes>
     </Router>
   )
