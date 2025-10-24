@@ -1,17 +1,16 @@
-import express from 'express';
-import cors from 'cors';
-import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
-import dotenv from 'dotenv';
-import { db } from './config/database.js';
-import logger from './config/logger.js';
-import { authenticateJWT } from './middleware/auth.js';
-import errorHandler from './middleware/errorHandler.js';
-import authRoutes from './routes/auth.js';
-import modulesRoutes from './routes/modules.js';
-import progressRoutes from './routes/progress.js';
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+require('dotenv').config();
 
-dotenv.config();
+const sequelize = require('./config/database');
+const logger = require('./config/logger');
+const { authenticateJWT } = require('./middleware/auth');
+const errorHandler = require('./middleware/errorHandler');
+const authRoutes = require('./routes/auth');
+const modulesRoutes = require('./routes/modules');
+const progressRoutes = require('./routes/progress');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -44,10 +43,10 @@ app.use((req, res) => {
 
 const start = async () => {
   try {
-    await db.authenticate();
+    await sequelize.authenticate();
     logger.info('Database connected');
     
-    await db.sync({ alter: false });
+    await sequelize.sync({ alter: false });
     logger.info('Models synchronized');
 
     app.listen(PORT, () => {
@@ -61,4 +60,4 @@ const start = async () => {
 
 start();
 
-export default app;
+module.exports = app;

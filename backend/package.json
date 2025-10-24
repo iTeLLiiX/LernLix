@@ -1,38 +1,31 @@
 {
   "name": "lernlix-backend",
   "version": "1.0.0",
-  "description": "Enterprise Learning Platform Backend - Express.js API",
+  "description": "LernLix Backend Server",
   "main": "src/server.js",
-  "type": "module",
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "NODE_ENV=test jest --detectOpenHandles",
-    "test:watch": "jest --watch",
-    "db:migrate": "sequelize-cli db:migrate",
-    "db:seed": "sequelize-cli db:seed:all",
-    "db:reset": "sequelize-cli db:migrate:undo:all && sequelize-cli db:migrate && sequelize-cli db:seed:all"
+    "test": "jest"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
-    "express-cors": "^0.0.5",
-    "jsonwebtoken": "^9.0.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "dotenv": "^16.0.3",
+    "jsonwebtoken": "^9.0.0",
     "bcryptjs": "^2.4.3",
-    "sequelize": "^6.33.0",
-    "pg": "^8.11.2",
-    "joi": "^17.10.2",
-    "dotenv": "^16.3.1",
-    "winston": "^3.11.0",
-    "express-rate-limit": "^7.0.0",
-    "helmet": "^7.1.0",
-    "cors": "^2.8.5"
+    "sequelize": "^6.28.0",
+    "pg": "^8.9.0",
+    "joi": "^17.9.1",
+    "winston": "^3.8.2",
+    "express-rate-limit": "^6.7.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1",
-    "jest": "^29.7.0",
-    "sequelize-cli": "^6.6.1",
-    "@types/express": "^4.17.20",
-    "@types/node": "^20.9.0"
+    "nodemon": "^2.0.20"
   }
 }
 
