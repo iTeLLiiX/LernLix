@@ -176,13 +176,15 @@ export default function ModulesPage() {
                     transition: 'all 0.3s ease',
                     opacity: isCompleted ? 0.8 : 1
                   }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.background = 'rgba(139, 92, 246, 0.1)'
-                    (e.currentTarget as HTMLElement).style.borderColor = 'rgba(139, 92, 246, 0.4)'
+                  onMouseEnter={(e: React.MouseEvent<HTMLDivElement>) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.background = 'rgba(139, 92, 246, 0.1)'
+                    el.style.borderColor = 'rgba(139, 92, 246, 0.4)'
                   }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.background = 'rgba(139, 92, 246, 0.05)'
-                    (e.currentTarget as HTMLElement).style.borderColor = 'rgba(139, 92, 246, 0.2)'
+                  onMouseLeave={(e: React.MouseEvent<HTMLDivElement>) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.background = 'rgba(139, 92, 246, 0.05)'
+                    el.style.borderColor = 'rgba(139, 92, 246, 0.2)'
                   }}
                 >
                   {/* Module Header */}
