@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocat
 import './main.css'
 import './auth.css'
 import './dashboard.css'
+import RPGDashboard from './pages/RPGDashboard'
 
 const API_URL = process.env.VITE_API_URL || '/api'
 
@@ -403,6 +404,22 @@ function DashboardPage() {
       
       <div className="dashboard-content">
         <h1>Welcome, {user.fullName}! 🎉</h1>
+        <button 
+          onClick={() => navigate('/rpg-dashboard')}
+          style={{
+            padding: '0.75rem 1.5rem',
+            background: 'linear-gradient(135deg, #8B5CF6, #7C3AED)',
+            color: 'white',
+            border: 'none',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            fontSize: '1rem',
+            fontWeight: '600',
+            marginBottom: '2rem'
+          }}
+        >
+          🎮 Enter RPG Dashboard →
+        </button>
         <div className="dashboard-grid">
           <div className="card">
             <h3>Your Progress</h3>
@@ -452,6 +469,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/dashboard" element={<ProtectedRoute element={<DashboardPage />} />} />
+      <Route path="/rpg-dashboard" element={<ProtectedRoute element={<RPGDashboard />} />} />
     </Routes>
   )
 }
