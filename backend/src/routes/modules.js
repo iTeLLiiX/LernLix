@@ -1,38 +1,17 @@
 const express = require('express');
-const logger = require('../config/logger');
+const { getAllModules, getModuleById, completeModule, startModule, getUserModuleProgress } = require('../controllers/moduleController');
+const { authenticateJWT } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Get all published modules
-router.get('/', async (req, res) => {
-  try {
-    const modules = await req.app.get('db').models.Module.findAll({
-      where: { isPublished: true },
-      order: [['createdAt', 'DESC']],
-    });
+// Public routes
+router.get('/', getAllModules);
+router.get('/:moduleId', getModuleById);
 
-    res.json(modules);
-  } catch (error) {
-    logger.error('Get modules error:', error.message);
-    res.status(500).json({ error: 'Failed to fetch modules' });
-  }
-});
-
-// Get module by ID
-router.get('/:id', async (req, res) => {
-  try {
-    const module = await req.app.get('db').models.Module.findByPk(req.params.id);
-
-    if (!module) {
-      return res.status(404).json({ error: 'Module not found' });
-    }
-
-    res.json(module);
-  } catch (error) {
-    logger.error('Get module error:', error.message);
-    res.status(500).json({ error: 'Failed to fetch module' });
-  }
-});
+// Protected routes
+router.post('/:moduleId/start', authenticateJWT, startModule);
+router.post('/:moduleId/complete', authenticateJWT, completeModule);
+router.get('/user/progress', authenticateJWT, getUserModuleProgress);
 
 module.exports = router;
 

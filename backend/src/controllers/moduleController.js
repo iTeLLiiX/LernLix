@@ -1,26 +1,25 @@
-const { Module } = require('../models');
 const logger = require('../config/logger');
 
-// Get all modules
-exports.getAllModules = async (req, res) => {
+const getAllModules = async (req, res) => {
   try {
-    const modules = await Module.findAll({
-      attributes: ['id', 'title', 'category', 'description', 'difficulty', 'duration', 'order', 'createdAt']
+    const modules = await req.app.get('db').models.LearningModule.findAll({
+      where: { isPublished: true, isActive: true },
+      order: [['difficulty', 'ASC'], ['createdAt', 'DESC']],
     });
 
-    res.json(modules);
+    res.json({
+      data: modules,
+      count: modules.length,
+    });
   } catch (error) {
-    logger.error('Get all modules error:', error);
+    logger.error('Get modules error:', error.message);
     res.status(500).json({ error: 'Failed to fetch modules' });
   }
 };
 
-// Get single module
-exports.getModule = async (req, res) => {
+const getModuleById = async (req, res) => {
   try {
-    const { id } = req.params;
-
-    const module = await Module.findByPk(id);
+    const module = await req.app.get('db').models.LearningModule.findByPk(req.params.moduleId);
 
     if (!module) {
       return res.status(404).json({ error: 'Module not found' });
@@ -28,123 +27,133 @@ exports.getModule = async (req, res) => {
 
     res.json(module);
   } catch (error) {
-    logger.error('Get module error:', error);
+    logger.error('Get module error:', error.message);
     res.status(500).json({ error: 'Failed to fetch module' });
   }
 };
 
-// Create module (Admin only)
-exports.createModule = async (req, res) => {
+const completeModule = async (req, res) => {
   try {
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ error: 'Unauthorized' });
-    }
-
-    const { title, category, description, content, difficulty, duration, order } = req.body;
-
-    if (!title || !category) {
-      return res.status(400).json({ error: 'Title and category required' });
-    }
-
-    const module = await Module.create({
-      title,
-      category,
-      description,
-      content,
-      difficulty: difficulty || 'beginner',
-      duration: duration || 60,
-      order: order || 0
-    });
-
-    logger.info(`Module created: ${module.id}`);
-
-    res.status(201).json({
-      message: 'Module created successfully',
-      module
-    });
-  } catch (error) {
-    logger.error('Create module error:', error);
-    res.status(500).json({ error: 'Failed to create module' });
-  }
-};
-
-// Update module (Admin only)
-exports.updateModule = async (req, res) => {
-  try {
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ error: 'Unauthorized' });
-    }
-
-    const { id } = req.params;
-    const { title, category, description, content, difficulty, duration, order } = req.body;
-
-    const module = await Module.findByPk(id);
+    const module = await req.app.get('db').models.LearningModule.findByPk(req.params.moduleId);
 
     if (!module) {
       return res.status(404).json({ error: 'Module not found' });
     }
 
-    await module.update({
-      title: title || module.title,
-      category: category || module.category,
-      description: description || module.description,
-      content: content || module.content,
-      difficulty: difficulty || module.difficulty,
-      duration: duration || module.duration,
-      order: order !== undefined ? order : module.order
+    // Check if user already completed this module
+    const existingProgress = await req.app.get('db').models.UserProgress.findOne({
+      where: {
+        userId: req.user.id,
+        moduleId: req.params.moduleId,
+      },
     });
 
-    logger.info(`Module updated: ${module.id}`);
+    if (existingProgress && existingProgress.status === 'completed') {
+      return res.status(400).json({ error: 'Module already completed' });
+    }
+
+    // Update or create progress
+    if (existingProgress) {
+      await existingProgress.update({
+        status: 'completed',
+        progress: 100,
+        completedAt: new Date(),
+      });
+    } else {
+      await req.app.get('db').models.UserProgress.create({
+        userId: req.user.id,
+        moduleId: req.params.moduleId,
+        status: 'completed',
+        progress: 100,
+        completedAt: new Date(),
+      });
+    }
+
+    // Update user stats
+    const userStats = await req.app.get('db').models.UserStats.findOne({
+      where: { userId: req.user.id },
+    });
+
+    if (userStats) {
+      await userStats.increment('totalXP', { by: module.xpReward });
+      await userStats.increment('coins', { by: module.coinReward });
+      await userStats.increment('modulesCompleted');
+    }
+
+    // Create certificate if module completed
+    const certificateNumber = `CERT-${req.user.id.substring(0, 8)}-${module.id.substring(0, 8)}-${Date.now()}`;
+    await req.app.get('db').models.Certificate.create({
+      userId: req.user.id,
+      moduleId: req.params.moduleId,
+      certificateNumber,
+      issuedAt: new Date(),
+    });
 
     res.json({
-      message: 'Module updated successfully',
-      module
+      message: 'Module completed successfully',
+      rewards: {
+        xp: module.xpReward,
+        coins: module.coinReward,
+      },
+      certificateNumber,
     });
   } catch (error) {
-    logger.error('Update module error:', error);
-    res.status(500).json({ error: 'Failed to update module' });
+    logger.error('Complete module error:', error.message);
+    res.status(500).json({ error: 'Failed to complete module' });
   }
 };
 
-// Delete module (Admin only)
-exports.deleteModule = async (req, res) => {
+const startModule = async (req, res) => {
   try {
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ error: 'Unauthorized' });
-    }
-
-    const { id } = req.params;
-
-    const module = await Module.findByPk(id);
+    const module = await req.app.get('db').models.LearningModule.findByPk(req.params.moduleId);
 
     if (!module) {
       return res.status(404).json({ error: 'Module not found' });
     }
 
-    await module.destroy();
+    const [progress, created] = await req.app.get('db').models.UserProgress.findOrCreate({
+      where: {
+        userId: req.user.id,
+        moduleId: req.params.moduleId,
+      },
+      defaults: {
+        userId: req.user.id,
+        moduleId: req.params.moduleId,
+        status: 'in_progress',
+        progress: 0,
+      },
+    });
 
-    logger.info(`Module deleted: ${id}`);
-
-    res.json({ message: 'Module deleted successfully' });
+    res.json({
+      message: created ? 'Module started' : 'Module already started',
+      data: progress,
+    });
   } catch (error) {
-    logger.error('Delete module error:', error);
-    res.status(500).json({ error: 'Failed to delete module' });
+    logger.error('Start module error:', error.message);
+    res.status(500).json({ error: 'Failed to start module' });
   }
 };
 
-// Get modules by category
-exports.getModulesByCategory = async (req, res) => {
+const getUserModuleProgress = async (req, res) => {
   try {
-    const { category } = req.params;
-
-    const modules = await Module.findAll({
-      where: { category },
-      attributes: ['id', 'title', 'category', 'description', 'difficulty', 'duration', 'order']
+    const userProgress = await req.app.get('db').models.UserProgress.findAll({
+      where: { userId: req.user.id },
     });
 
-    res.json(modules);
+    res.json({
+      data: userProgress,
+      count: userProgress.length,
+    });
   } catch (error) {
-    logger.error('Get modules by category error:', error);
-    res.status(500).json({ error: 'Failed to fetch modules' });
+    logger.error('Get user progress error:', error.message);
+    res.status(500).json({ error: 'Failed to fetch user progress' });
   }
+};
+
+module.exports = {
+  getAllModules,
+  getModuleById,
+  completeModule,
+  startModule,
+  getUserModuleProgress,
 };

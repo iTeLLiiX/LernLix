@@ -19,27 +19,21 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.set('trust proxy', 1);
-// Security middleware
 app.use(helmet());
-app.use(cors({ origin: process.env.CORS_ORIGIN || 'http://localhost:3000' }));
-
-// Rate limiting
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
-app.use(limiter);
-
-// Body parser
+app.use(cors({ 
+  origin: ['http://localhost:3000', 'http://localhost', 'http://45.133.9.167', 'http://telliix.de', 'https://telliix.de'],
+  credentials: true
+}));
+app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Store database in app for controller access
 app.set('db', sequelize);
 
-// Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/modules', modulesRoutes);
 app.use('/api/progress', authenticateJWT, progressRoutes);
@@ -47,27 +41,22 @@ app.use('/api/quests', questsRoutes);
 app.use('/api/skills', skillsRoutes);
 app.use('/api/stats', statsRoutes);
 
-// 404 handler
 app.use((req, res) => {
   res.status(404).json({ error: 'Not Found' });
 });
 
-// Error handler
 app.use(errorHandler);
 
-// Initialize database and start server
 const start = async () => {
   try {
-    console.log('[BOOT] Starting LernLix Backend...');
-
-    // Test database connection
+    console.log('[BOOT] Starting CodeSnap Backend...');
     await sequelize.authenticate();
     console.log('[BOOT] ✅ Database connected');
-
-    // Define models
+    
     const { DataTypes } = require('sequelize');
     require('./models/User')(sequelize);
     require('./models/Module')(sequelize);
+    require('./models/LearningModule')(sequelize);
     require('./models/UserProgress')(sequelize);
     require('./models/Certificate')(sequelize);
     require('./models/Quest')(sequelize);
@@ -76,11 +65,9 @@ const start = async () => {
     require('./models/Achievement')(sequelize);
     require('./models/UserQuest')(sequelize);
 
-    // Sync database
     await sequelize.sync({ alter: process.env.NODE_ENV !== 'production' });
     console.log('[BOOT] ✅ Database synchronized');
 
-    // Start server
     app.listen(PORT, () => {
       console.log(`[BOOT] ✅ Server running on port ${PORT}`);
       logger.info(`Server started on port ${PORT}`);
