@@ -5,6 +5,7 @@ import './main.css'
 import './auth.css'
 import './dashboard.css'
 import RPGDashboard from './pages/RPGDashboard'
+import ModulesPage from './pages/ModulesPage'
 
 const API_URL = process.env.VITE_API_URL || '/api'
 
@@ -470,6 +471,7 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/dashboard" element={<ProtectedRoute element={<DashboardPage />} />} />
       <Route path="/rpg-dashboard" element={<ProtectedRoute element={<RPGDashboard />} />} />
+      <Route path="/modules" element={<ProtectedRoute element={<ModulesPage />} />} />
     </Routes>
   )
 }
