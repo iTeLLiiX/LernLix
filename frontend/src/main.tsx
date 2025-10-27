@@ -5,7 +5,7 @@ import './main.css'
 import './auth.css'
 import './dashboard.css'
 
-const API_URL = process.env.VITE_API_URL || 'http://localhost:3001'
+const API_URL = process.env.VITE_API_URL || '/api'
 
 // Auth Context
 const AuthContext = React.createContext<any>(null)
@@ -25,7 +25,7 @@ function AuthProvider({ children }: any) {
 
   const fetchUser = async (token: string) => {
     try {
-      const response = await fetch(`${API_URL}/api/auth/me`, {
+      const response = await fetch(`${API_URL}/auth/me`, {
         headers: { 'Authorization': `Bearer ${token}` }
       })
       if (response.ok) {
@@ -42,7 +42,7 @@ function AuthProvider({ children }: any) {
   }
 
   const login = async (email: string, password: string) => {
-    const response = await fetch(`${API_URL}/api/auth/login`, {
+    const response = await fetch(`${API_URL}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
@@ -58,7 +58,7 @@ function AuthProvider({ children }: any) {
   }
 
   const register = async (fullName: string, email: string, password: string, confirmPassword: string) => {
-    const response = await fetch(`${API_URL}/api/auth/register`, {
+    const response = await fetch(`${API_URL}/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ fullName, email, password, confirmPassword })
