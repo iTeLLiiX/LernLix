@@ -1,5 +1,5 @@
-import jwt from 'jsonwebtoken';
-import logger from '../config/logger.js';
+const jwt = require('jsonwebtoken');
+const logger = require('../config/logger.js');
 
 export const authenticateJWT = (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -34,4 +34,4 @@ export const authorize = (allowedRoles) => {
   };
 };
 
-export default { authenticateJWT, authorize };
+module.exports = { authenticateJWT, authorize };

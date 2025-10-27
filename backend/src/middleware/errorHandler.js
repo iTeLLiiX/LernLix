@@ -1,4 +1,4 @@
-import logger from '../config/logger.js';
+const logger = require('../config/logger.js');
 
 export const errorHandler = (err, req, res, next) => {
   logger.error('Error occurred:', {
@@ -24,4 +24,4 @@ export const errorHandler = (err, req, res, next) => {
   res.status(500).json({ error: 'Internal Server Error' });
 };
 
-export default errorHandler;
+module.exports = errorHandler;
