@@ -85,7 +85,7 @@ const seedData = async () => {
       {
         name: 'JavaScript Ninja',
         description: 'Master JavaScript fundamentals',
-        icon: '⚡',
+        icon: 'lightning',
         tier: 1,
         category: 'Programming',
         requiredXP: 500,
@@ -95,7 +95,7 @@ const seedData = async () => {
       {
         name: 'React Master',
         description: 'Become expert in React framework',
-        icon: '⚛️',
+        icon: 'atom',
         tier: 2,
         category: 'Frontend',
         requiredXP: 1500,
@@ -105,7 +105,7 @@ const seedData = async () => {
       {
         name: 'Node.js Expert',
         description: 'Master backend with Node.js',
-        icon: '🟢',
+        icon: 'server',
         tier: 2,
         category: 'Backend',
         requiredXP: 1500,
@@ -115,7 +115,7 @@ const seedData = async () => {
       {
         name: 'Database Designer',
         description: 'SQL and database design expert',
-        icon: '🗄️',
+        icon: 'database',
         tier: 2,
         category: 'Database',
         requiredXP: 1200,
@@ -125,7 +125,7 @@ const seedData = async () => {
       {
         name: 'Full Stack Developer',
         description: 'Master both frontend and backend',
-        icon: '🚀',
+        icon: 'rocket',
         tier: 3,
         category: 'Full Stack',
         requiredXP: 3000,
@@ -135,7 +135,7 @@ const seedData = async () => {
       {
         name: 'DevOps Engineer',
         description: 'Docker, Kubernetes, CI/CD master',
-        icon: '🐳',
+        icon: 'package',
         tier: 3,
         category: 'DevOps',
         requiredXP: 2500,
@@ -145,7 +145,7 @@ const seedData = async () => {
       {
         name: 'Python Programmer',
         description: 'Advanced Python skills',
-        icon: '🐍',
+        icon: 'code',
         tier: 1,
         category: 'Programming',
         requiredXP: 800,
@@ -155,7 +155,7 @@ const seedData = async () => {
       {
         name: 'Cloud Architect',
         description: 'AWS, Azure, GCP expertise',
-        icon: '☁️',
+        icon: 'cloud',
         tier: 3,
         category: 'Cloud',
         requiredXP: 2800,
@@ -170,7 +170,7 @@ const seedData = async () => {
       {
         title: 'First Step',
         description: 'Complete your first quest',
-        icon: '👶',
+        icon: 'award',
         badge: 'first_step',
         type: 'milestone',
         condition: { quests: 1 },
@@ -181,7 +181,7 @@ const seedData = async () => {
       {
         title: 'Quest Master',
         description: 'Complete 10 quests',
-        icon: '🎯',
+        icon: 'target',
         badge: 'quest_master',
         type: 'milestone',
         condition: { quests: 10 },
@@ -190,9 +190,9 @@ const seedData = async () => {
         isActive: true,
       },
       {
-        title: 'On Fire!',
+        title: 'On Fire',
         description: 'Reach 7 day streak',
-        icon: '🔥',
+        icon: 'flame',
         badge: 'on_fire',
         type: 'streak',
         condition: { days: 7 },
@@ -203,7 +203,7 @@ const seedData = async () => {
       {
         title: 'Legend',
         description: 'Reach level 10',
-        icon: '👑',
+        icon: 'crown',
         badge: 'legend',
         type: 'milestone',
         condition: { level: 10 },
@@ -214,7 +214,7 @@ const seedData = async () => {
       {
         title: 'Skill Collector',
         description: 'Unlock 5 skills',
-        icon: '🎓',
+        icon: 'award',
         badge: 'skill_collector',
         type: 'skill',
         condition: { skills: 5 },
@@ -225,7 +225,7 @@ const seedData = async () => {
       {
         title: 'Knowledge Seeker',
         description: 'Earn 1000 XP',
-        icon: '📚',
+        icon: 'book',
         badge: 'knowledge_seeker',
         type: 'milestone',
         condition: { xp: 1000 },
