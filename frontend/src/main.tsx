@@ -388,15 +388,35 @@ function RegisterPage() {
 function DashboardPage() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
 
   if (!user) {
     return <Navigate to="/login" />
   }
 
+  const navItems = [
+    { id: 'home', label: 'Home', path: '/dashboard', icon: '🏠' },
+    { id: 'rpg', label: 'RPG', path: '/rpg-dashboard', icon: '⚔️' },
+    { id: 'modules', label: 'Modules', path: '/modules', icon: '📚' },
+    { id: 'profile', label: 'Profile', path: '/profile', icon: '👤' }
+  ]
+
   return (
     <div className="dashboard">
       <nav className="dashboard-nav">
         <div className="nav-brand">⚡ CodeSnap</div>
+        <div className="nav-tabs">
+          {navItems.map(item => (
+            <button
+              key={item.id}
+              className={`nav-tab ${location.pathname === item.path ? 'active' : ''}`}
+              onClick={() => navigate(item.path)}
+            >
+              <span className="nav-icon">{item.icon}</span>
+              <span className="nav-label">{item.label}</span>
+            </button>
+          ))}
+        </div>
         <div className="nav-user">
           <span>{user.fullName}</span>
           <button onClick={() => { logout(); navigate('/'); }} className="logout-btn">Logout</button>
