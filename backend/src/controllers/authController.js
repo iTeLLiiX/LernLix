@@ -1,145 +1,162 @@
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { User } = require('../models');
 const logger = require('../config/logger');
 
-// Generate JWT Token
-const generateToken = (userId) => {
-  return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: '24h' });
+const generateTokens = (userId, role) => {
+  const accessToken = jwt.sign(
+    { id: userId, role },
+    process.env.JWT_SECRET,
+    { expiresIn: process.env.JWT_EXPIRY || '24h' }
+  );
+
+  const refreshToken = jwt.sign(
+    { id: userId },
+    process.env.JWT_REFRESH_SECRET,
+    { expiresIn: process.env.JWT_REFRESH_EXPIRY || '7d' }
+  );
+
+  return { accessToken, refreshToken };
 };
 
-// Generate Refresh Token
-const generateRefreshToken = (userId) => {
-  return jwt.sign({ id: userId }, process.env.JWT_REFRESH_SECRET, { expiresIn: '7d' });
-};
-
-// Register
-exports.register = async (req, res) => {
+const register = async (req, res) => {
   try {
-    const { email, password, name } = req.body;
+    const { fullName, email, password, confirmPassword } = req.body;
 
     // Validation
-    if (!email || !password || !name) {
-      return res.status(400).json({ error: 'Email, password, and name required' });
+    if (!fullName || !email || !password || !confirmPassword) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    if (password !== confirmPassword) {
+      return res.status(400).json({ error: 'Passwords do not match' });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ error: 'Password must be at least 6 characters' });
     }
 
     // Check if user exists
-    const existingUser = await User.findOne({ where: { email } });
-    if (existingUser) {
-      return res.status(409).json({ error: 'User already exists' });
-    }
-
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create user
-    const user = await User.create({
-      email,
-      password: hashedPassword,
-      name
+    const existingUser = await req.app.get('db').models.User.findOne({
+      where: { email: email.toLowerCase() },
     });
 
-    // Generate tokens
-    const token = generateToken(user.id);
-    const refreshToken = generateRefreshToken(user.id);
+    if (existingUser) {
+      return res.status(409).json({ error: 'Email already registered' });
+    }
+
+    // Create user
+    const user = await req.app.get('db').models.User.create({
+      fullName,
+      email: email.toLowerCase(),
+      password,
+      role: 'student',
+    });
+
+    const { accessToken, refreshToken } = generateTokens(user.id, user.role);
 
     logger.info(`User registered: ${email}`);
 
     res.status(201).json({
-      message: 'User registered successfully',
-      user: { id: user.id, email: user.email, name: user.name },
-      token,
-      refreshToken
+      message: 'Registration successful',
+      user: user.toJSON(),
+      accessToken,
+      refreshToken,
     });
   } catch (error) {
-    logger.error('Register error:', error);
+    logger.error('Registration error:', error.message);
     res.status(500).json({ error: 'Registration failed' });
   }
 };
 
-// Login
-exports.login = async (req, res) => {
+const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
     // Validation
     if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password required' });
+      return res.status(400).json({ error: 'Email and password are required' });
     }
 
     // Find user
-    const user = await User.findOne({ where: { email } });
+    const user = await req.app.get('db').models.User.findOne({
+      where: { email: email.toLowerCase() },
+    });
+
     if (!user) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     // Check password
-    const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!passwordMatch) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+    const isPasswordValid = await user.comparePassword(password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    // Generate tokens
-    const token = generateToken(user.id);
-    const refreshToken = generateRefreshToken(user.id);
+    if (!user.isActive) {
+      return res.status(403).json({ error: 'Account is deactivated' });
+    }
+
+    // Update last login
+    await user.update({ lastLogin: new Date() });
+
+    const { accessToken, refreshToken } = generateTokens(user.id, user.role);
 
     logger.info(`User logged in: ${email}`);
 
     res.json({
       message: 'Login successful',
-      user: { id: user.id, email: user.email, name: user.name },
-      token,
-      refreshToken
+      user: user.toJSON(),
+      accessToken,
+      refreshToken,
     });
   } catch (error) {
-    logger.error('Login error:', error);
+    logger.error('Login error:', error.message);
     res.status(500).json({ error: 'Login failed' });
   }
 };
 
-// Refresh Token
-exports.refreshToken = async (req, res) => {
+const refreshToken = async (req, res) => {
   try {
-    const { refreshToken } = req.body;
+    const { refreshToken: token } = req.body;
 
-    if (!refreshToken) {
-      return res.status(400).json({ error: 'Refresh token required' });
+    if (!token) {
+      return res.status(400).json({ error: 'Refresh token is required' });
     }
 
-    // Verify refresh token
-    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
-    const user = await User.findByPk(decoded.id);
+    const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+    const user = await req.app.get('db').models.User.findByPk(decoded.id);
 
-    if (!user) {
-      return res.status(401).json({ error: 'User not found' });
+    if (!user || !user.isActive) {
+      return res.status(401).json({ error: 'Invalid refresh token' });
     }
 
-    // Generate new token
-    const newToken = generateToken(user.id);
+    const { accessToken: newAccessToken, refreshToken: newRefreshToken } = generateTokens(
+      user.id,
+      user.role
+    );
 
     res.json({
-      token: newToken,
-      user: { id: user.id, email: user.email, name: user.name }
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
     });
   } catch (error) {
-    logger.error('Refresh token error:', error);
+    logger.error('Token refresh error:', error.message);
     res.status(401).json({ error: 'Invalid refresh token' });
   }
 };
 
-// Get Current User
-exports.getCurrentUser = async (req, res) => {
+const getMe = async (req, res) => {
   try {
-    const user = await User.findByPk(req.user.id, { attributes: ['id', 'email', 'name', 'createdAt'] });
-    res.json({ user });
+    const user = await req.app.get('db').models.User.findByPk(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json(user.toJSON());
   } catch (error) {
-    logger.error('Get current user error:', error);
-    res.status(500).json({ error: 'Failed to get user' });
+    logger.error('Get user error:', error.message);
+    res.status(500).json({ error: 'Failed to fetch user' });
   }
 };
 
-// Logout
-exports.logout = (req, res) => {
-  logger.info(`User logged out: ${req.user.id}`);
-  res.json({ message: 'Logout successful' });
-};
+module.exports = { register, login, refreshToken, getMe };

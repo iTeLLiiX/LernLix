@@ -1,25 +1,38 @@
 const express = require('express');
+const logger = require('../config/logger');
+
 const router = express.Router();
-const { getAllModules, getModule, createModule, updateModule, deleteModule, getModulesByCategory } = require('../controllers/moduleController');
-const { authenticateJWT } = require('../middleware/auth');
 
-// Get all modules
-router.get('/', getAllModules);
+// Get all published modules
+router.get('/', async (req, res) => {
+  try {
+    const modules = await req.app.get('db').models.Module.findAll({
+      where: { isPublished: true },
+      order: [['createdAt', 'DESC']],
+    });
 
-// Get modules by category
-router.get('/category/:category', getModulesByCategory);
+    res.json(modules);
+  } catch (error) {
+    logger.error('Get modules error:', error.message);
+    res.status(500).json({ error: 'Failed to fetch modules' });
+  }
+});
 
-// Get single module
-router.get('/:id', getModule);
+// Get module by ID
+router.get('/:id', async (req, res) => {
+  try {
+    const module = await req.app.get('db').models.Module.findByPk(req.params.id);
 
-// Create module (Admin only)
-router.post('/', authenticateJWT, createModule);
+    if (!module) {
+      return res.status(404).json({ error: 'Module not found' });
+    }
 
-// Update module (Admin only)
-router.put('/:id', authenticateJWT, updateModule);
-
-// Delete module (Admin only)
-router.delete('/:id', authenticateJWT, deleteModule);
+    res.json(module);
+  } catch (error) {
+    logger.error('Get module error:', error.message);
+    res.status(500).json({ error: 'Failed to fetch module' });
+  }
+});
 
 module.exports = router;
 

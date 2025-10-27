@@ -6,58 +6,76 @@ require('dotenv').config();
 
 const sequelize = require('./config/database');
 const logger = require('./config/logger');
-const { authenticateJWT } = require('./middleware/auth');
-const errorHandler = require('./middleware/errorHandler');
 const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/users');
 const modulesRoutes = require('./routes/modules');
 const progressRoutes = require('./routes/progress');
-const adminRoutes = require('./routes/admin');
+const { authenticateJWT } = require('./middleware/auth');
+const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Security middleware
 app.use(helmet());
 app.use(cors({ origin: process.env.CORS_ORIGIN || 'http://localhost:3000' }));
 
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100
-});
+// Rate limiting
+const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
 app.use(limiter);
 
+// Body parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Store database in app for controller access
+app.set('db', sequelize);
+
+// Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
+// Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
 app.use('/api/modules', modulesRoutes);
 app.use('/api/progress', authenticateJWT, progressRoutes);
-app.use('/api/admin', adminRoutes);
 
-app.use(errorHandler);
-
+// 404 handler
 app.use((req, res) => {
   res.status(404).json({ error: 'Not Found' });
 });
 
+// Error handler
+app.use(errorHandler);
+
+// Initialize database and start server
 const start = async () => {
   try {
+    console.log('[BOOT] Starting LernLix Backend...');
+
+    // Test database connection
     await sequelize.authenticate();
-    logger.info('Database connected');
+    console.log('[BOOT] ✅ Database connected');
 
-    await sequelize.sync({ alter: false });
-    logger.info('Models synchronized');
+    // Define models
+    const { DataTypes } = require('sequelize');
+    require('./models/User')(sequelize);
+    require('./models/Module')(sequelize);
+    require('./models/UserProgress')(sequelize);
+    require('./models/Certificate')(sequelize);
 
+    // Sync database
+    await sequelize.sync({ alter: process.env.NODE_ENV !== 'production' });
+    console.log('[BOOT] ✅ Database synchronized');
+
+    // Start server
     app.listen(PORT, () => {
-      logger.info(`Server running on port ${PORT}`);
+      console.log(`[BOOT] ✅ Server running on port ${PORT}`);
+      logger.info(`Server started on port ${PORT}`);
     });
   } catch (error) {
-    logger.error('Failed to start server:', error);
+    console.error('[BOOT] ❌ Failed to start:', error.message);
+    logger.error('Startup error:', error.message);
     process.exit(1);
   }
 };

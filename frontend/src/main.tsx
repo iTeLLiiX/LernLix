@@ -30,11 +30,11 @@ function HomePage() {
 
   const fetchModules = async () => {
     try {
-      const response = await fetch('http://45.133.9.167:3001/api/modules')
+      const response = await fetch('/api/modules')
       const data = await response.json()
       setModules(data || [])
     } catch (error) {
-      console.error('Error fetching modules:', error)
+      console.error('Error fetching modules:', error instanceof Error ? error.message : 'Unknown error')
     } finally {
       setLoading(false)
     }

@@ -1,43 +1,41 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
 
-const Module = sequelize.define('Module', {
-  id: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
-    primaryKey: true,
-  },
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  category: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  description: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
-  content: {
-    type: DataTypes.JSONB,
-    allowNull: true,
-  },
-  duration: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-  },
-  difficulty: {
-    type: DataTypes.ENUM('beginner', 'intermediate', 'advanced'),
-    defaultValue: 'beginner',
-  },
-  order: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-  },
-}, {
-  timestamps: true,
-  tableName: 'modules',
-});
+module.exports = (sequelize) => {
+  const Module = sequelize.define('Module', {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
+    },
+    title: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      validate: { len: [3, 255] },
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    category: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+    },
+    difficulty: {
+      type: DataTypes.ENUM('beginner', 'intermediate', 'advanced'),
+      defaultValue: 'beginner',
+    },
+    duration: {
+      type: DataTypes.INTEGER,
+      defaultValue: 60,
+      validate: { min: 1 },
+    },
+    isPublished: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+  }, {
+    timestamps: true,
+  });
 
-module.exports = Module;
+  return Module;
+};

@@ -1,43 +1,39 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
 
-const UserProgress = sequelize.define('UserProgress', {
-  id: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
-    primaryKey: true,
-  },
-  userId: {
-    type: DataTypes.UUID,
-    allowNull: false,
-  },
-  moduleId: {
-    type: DataTypes.UUID,
-    allowNull: false,
-  },
-  startDate: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-  },
-  completionDate: {
-    type: DataTypes.DATE,
-    allowNull: true,
-  },
-  score: {
-    type: DataTypes.INTEGER,
-    defaultValue: 0,
-  },
-  timeSpent: {
-    type: DataTypes.INTEGER,
-    defaultValue: 0,
-  },
-  completed: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
-  },
-}, {
-  timestamps: true,
-  tableName: 'user_progress',
-});
+module.exports = (sequelize) => {
+  const UserProgress = sequelize.define('UserProgress', {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
+    },
+    userId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+    moduleId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+    progress: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      validate: { min: 0, max: 100 },
+    },
+    status: {
+      type: DataTypes.ENUM('not_started', 'in_progress', 'completed'),
+      defaultValue: 'not_started',
+    },
+    completedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+  }, {
+    timestamps: true,
+    indexes: [
+      { fields: ['userId', 'moduleId'], unique: true },
+    ],
+  });
 
-module.exports = UserProgress;
+  return UserProgress;
+};

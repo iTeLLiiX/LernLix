@@ -2,9 +2,9 @@ const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
 const sequelize = new Sequelize(
-  process.env.DB_NAME || 'lernlix_dev',
-  process.env.DB_USER || 'postgres',
-  process.env.DB_PASSWORD || 'password',
+  process.env.DB_NAME || 'lernlix',
+  process.env.DB_USER || 'lernlix_user',
+  process.env.DB_PASSWORD || 'postgres123',
   {
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT || 5432,
