@@ -1,7 +1,7 @@
-import express from 'express';
-import { UserProgress } from '../models/UserProgress.js';
-import { Module } from '../models/Module.js';
-import logger from '../config/logger.js';
+const express = require('express');
+const { UserProgress } = require('../models/UserProgress.js');
+const { Module } = require('../models/Module.js');
+const logger = require('../config/logger.js');
 
 const router = express.Router();
 
@@ -46,5 +46,5 @@ router.post('/', async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;
 
