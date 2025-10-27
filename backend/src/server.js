@@ -9,6 +9,9 @@ const logger = require('./config/logger');
 const authRoutes = require('./routes/auth');
 const modulesRoutes = require('./routes/modules');
 const progressRoutes = require('./routes/progress');
+const questsRoutes = require('./routes/quests');
+const skillsRoutes = require('./routes/skills');
+const statsRoutes = require('./routes/stats');
 const { authenticateJWT } = require('./middleware/auth');
 const errorHandler = require('./middleware/errorHandler');
 
@@ -39,6 +42,9 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/modules', modulesRoutes);
 app.use('/api/progress', authenticateJWT, progressRoutes);
+app.use('/api/quests', questsRoutes);
+app.use('/api/skills', skillsRoutes);
+app.use('/api/stats', statsRoutes);
 
 // 404 handler
 app.use((req, res) => {
