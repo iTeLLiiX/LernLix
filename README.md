@@ -1,231 +1,345 @@
-# 🚀 LernLix - Interaktive Lernplattform für C# & Netzwerktechnik
+# ⚡ CodeSnap - Learning RPG Platform
 
-Eine innovative, gamifizierte Lernplattform für junge Erwachsene (16-30 Jahre), die C# und Netzwerktechnik mit **Spaß und nachhaltigem Erfolg** lernen möchten.
+## 🎮 Was ist CodeSnap?
 
-## 🎯 Features
+**CodeSnap** ist eine moderne **Learning RPG Platform**, auf der Nutzer programmieren lernen können während sie gleichzeitig:
+- 🎯 **Quests** absolvieren und **XP** verdienen
+- 🌳 Ein **Skill Tree** freischalten
+- 🏆 **Achievements** sammeln
+- 📊 Ihre **Statistiken** tracken
+- 🔥 Eine tägliche **Streak** aufbauen
 
-### 📚 Erweiterte Lernmodule
-- **Quick-Start Tutorials** (5-10 Min): Schnelle Erfolgserlebnisse durch praktische Mini-Projekte
-- **Deep-Dive Module**: Theorie mit animierten Code-Visualisierungen
-- **Challenge-Mode**: Zeitbasierte Coding-Aufgaben mit Live-Feedback
-- **Projekt-Lab**: Komplexere Aufgaben mit Schritt-für-Schritt-Assistenten
-
-### 🎮 Gamification-Elemente
-- **Belohnungssystem**: Punkte für Lektionen → einlösbar für Badges
-- **Fortschrittsbalken**: Mit Meilensteinen und Level-System
-- **Soziale Features**: Lerngruppen, Leaderboards, motivierende Wettbewerbe
-- **Learning Streak**: Tägliche Aktivitäts-Tracking
-
-### 🎬 Multimediale Inhalte
-- **Video-Microlectures**: Max. 3 Minuten pro Konzept
-- **Interactive Coding Sandbox**: Mit vorgeladenen Templates
-- **Podcast-Style Zusammenfassungen**: Für unterwegs
-
-### 🤖 KI-basierter Lerncoach
-- Personalisierte Empfehlungen
-- Adaptive Lernpfade
-- Wöchentliche Lernziele mit Erinnerungen
-
-## 🏗️ Architektur
-
-```
-LernLix/
-├── src/
-│   ├── components/        # UI-Komponenten
-│   │   ├── ProgressBar.tsx
-│   │   ├── BadgeCard.tsx
-│   │   └── LeaderboardCard.tsx
-│   ├── pages/            # Seiten-Komponenten
-│   │   ├── Dashboard.tsx
-│   │   └── ModuleView.tsx
-│   ├── store/            # State Management (Zustand)
-│   │   └── gamificationStore.ts
-│   ├── App.tsx
-│   ├── main.tsx
-│   └── index.css
-├── package.json
-├── tsconfig.json
-├── vite.config.ts
-└── README.md
-```
-
-## 📦 Technologie-Stack
-
-- **Frontend**: React 18 + TypeScript
-- **Build Tool**: Vite
-- **State Management**: Zustand
-- **Animations**: Framer Motion
-- **UI Icons**: Lucide React
-- **Charts**: Recharts
-- **Styling**: Tailwind CSS
-- **HTTP Client**: Axios
-
-## 🚀 Installation & Setup
-
-### Voraussetzungen
-- Node.js 16+ 
-- npm oder yarn
-
-### Installation
-
-```bash
-# Abhängigkeiten installieren
-npm install
-
-# Entwicklungsserver starten
-npm run dev
-
-# Production Build
-npm run build
-
-# Preview Production Build
-npm run preview
-```
-
-## 📚 Modul-Struktur
-
-### Quick-Start Module (5-10 Min)
-Beispiele:
-- 🤖 Erstelle deinen ersten Chatbot
-- 🧮 Baue eine Rechner-App
-- 🔄 Deine erste Schleife
-
-**Gamification**:
-- 50 Punkte pro Abschluss
-- Bonus: +25 Punkte für <5 Min Bearbeitung
-- Badges bei Meilenssteinen
-
-### Deep-Dive Module (20-45 Min)
-Beispiele:
-- 🌐 Wie Daten durch Netzwerkpakete fließen
-- 📦 Objektorientierung verstehen
-- ⚡ Async/Await Programmierung
-
-**Features**:
-- Video-Microlectures mit Animationen
-- Interaktive Visualisierungen
-- Code-Highlighting und Debugging
-- Quiz zum Verständnis überprüfen
-
-### Challenge-Mode
-- Zeitbasierte Coding-Aufgaben
-- Live-Feedback und Fehlerbehandlung
-- Leaderboard-Integration
-
-## 🎮 Gamification-System
-
-### Punkte
-- **Quick-Start Modul**: 50 Punkte
-- **Deep-Dive Modul**: 150 Punkte
-- **Challenge Abschluss**: 200-500 Punkte (je nach Schwierigkeit)
-- **Bonus**: Punkte für schnelle Bearbeitung, perfekte Quizzes, Streaks
-
-### Level-System
-- Jedes Level braucht 500 Punkte
-- Fortschrittsanzeige zum nächsten Level
-- Unlocking von neuen Modulen bei Level-Aufstieg
-
-### Badges
-- 🏅 Erste Erfolge: "First Coder", "Quick Learner"
-- 🥷 Spezialisierungen: "Netzwerk-Ninja", "OOP-Meister"
-- ⚡ Challenge-Badges: "Speed Demon", "Debug Master"
-- 🔥 Streak-Badges: "Learning Warrior" bei 7-Tage Streak
-
-### Leaderboards
-- Wöchentliche Rankings
-- Friends-Only Modus
-- Achievement-Vergleiche
-
-## 🔄 Zustand Management
-
-Die App verwendet **Zustand** für State Management:
-
-```typescript
-// Gamification Store
-useGamificationStore()
-  .addPoints(100, "Modul abgeschlossen")
-  .unlockBadge(badge)
-  .completeModule("module-id")
-  .incrementStreak()
-```
-
-## 📡 API-Integration (geplant)
-
-```typescript
-// Code Execution Service
-POST /api/execute-code
-Request: { code, moduleId, testCases }
-Response: { success, output, errors, executionTime }
-
-// Module Progress
-POST /api/modules/complete
-Request: { moduleId, timeSpent, bonus }
-
-// Gamification Events
-POST /api/gamification/event
-Request: { userId, eventType, points, badgeId }
-```
-
-## 🎨 Design-System
-
-### Farben
-- Primary Purple: `#8b5cf6`
-- Secondary Blue: `#3b82f6`
-- Success Green: `#10b981`
-- Dark Background: `#0f172a`
-
-### Emojis (Modern)
-- 🚀 Für Starts/Launches
-- ✨ Für Special/Achievements
-- 🎯 Für Goals/Targets
-- 🏅 Für Badges
-- 🔥 Für Streaks
-
-## 📱 Responsive Design
-
-Die App ist vollständig responsive:
-- Mobile-first Ansatz
-- Tailwind CSS Breakpoints
-- Touch-freundliche Interactions
-
-## 🧪 Testing (geplant)
-
-```bash
-npm run test
-npm run test:coverage
-```
-
-## 📈 Analytics & Metrics
-
-Verfolgte Metriken:
-- **Engagement**: Tägliche aktive Nutzer, Session-Länge
-- **Learning**: Module abgeschlossen, Quiz-Scores, Durchschnittliche Zeit
-- **Gamification**: Punkte verdient, Badges freigeschaltet, Leaderboard-Position
-
-## 🔐 Datenschutz
-
-- GDPR-konform
-- Lokale Speicherung möglich
-- Optional: Cloud-Sync
-
-## 🤝 Beitragen
-
-Contributions sind willkommen! Bitte:
-1. Fork das Repository
-2. Feature-Branch erstellen (`git checkout -b feature/AmazingFeature`)
-3. Änderungen committen (`git commit -m 'Add AmazingFeature'`)
-4. Branch pushen (`git push origin feature/AmazingFeature`)
-5. Pull Request öffnen
-
-## 📄 Lizenz
-
-Dieses Projekt ist unter der MIT-Lizenz lizenziert.
-
-## 👨‍💻 Kontakt
-
-Bei Fragen oder Vorschlägen bitte ein Issue öffnen oder kontaktieren Sie den Projektleiter.
+**Live Demo**: http://telliix.de
+**API**: http://telliix.de/api
 
 ---
 
-**Viel Spaß beim Lernen! 🎓✨**
+## 📋 Features
+
+### Authentifizierung
+- ✅ User Registration mit Validierung
+- ✅ Secure Login mit JWT Tokens
+- ✅ Token Refresh System
+- ✅ Password Hashing mit bcrypt
+
+### RPG System
+- ✅ **Quests**: Daily/Weekly/Challenge Tasks
+- ✅ **Skills**: Skill Tree mit 8+ Skills
+- ✅ **Achievements**: 6+ Verschiedene Meilensteine
+- ✅ **Stats**: Level, XP, Coins, Streak
+- ✅ **Leaderboard**: Ranked nach XP
+
+### Learning System (kommend)
+- ⏳ Learning Modules
+- ⏳ Code Challenges
+- ⏳ Progress Tracking
+- ⏳ Certificates
+
+---
+
+## 🏗️ Architecture
+
+### Tech Stack
+
+**Backend**:
+- Node.js + Express
+- PostgreSQL + Sequelize ORM
+- JWT Authentication
+- Winston Logging
+
+**Frontend**:
+- React 18
+- Vite
+- Tailwind CSS
+- React Router
+- Zustand State Management
+
+**Deployment**:
+- Ubuntu 24.04 VPS
+- Nginx (Reverse Proxy)
+- PM2 (Process Manager)
+- SSL/HTTPS
+
+### Directory Structure
+
+```
+LernLix/
+├── backend/
+│   ├── src/
+│   │   ├── config/       (Database, Logger, etc)
+│   │   ├── models/       (Sequelize Models)
+│   │   ├── controllers/  (Business Logic)
+│   │   ├── routes/       (API Routes)
+│   │   ├── middleware/   (Auth, Error Handling)
+│   │   ├── scripts/      (Database Seeding)
+│   │   └── server.js     (Entry Point)
+│   ├── .env              (Environment Variables)
+│   └── package.json
+│
+├── frontend/
+│   ├── src/
+│   │   ├── pages/        (React Pages)
+│   │   ├── components/   (React Components)
+│   │   └── main.tsx      (Entry Point)
+│   ├── index.html
+│   └── package.json
+│
+├── COMPLETE_DEPLOYMENT.sh  (Auto-Deployment Script)
+└── README.md
+```
+
+---
+
+## 🚀 Deployment
+
+### Automated Deployment
+
+```bash
+# 1. SSH zum Server
+ssh root@45.133.9.167
+
+# 2. Script ausführen
+chmod +x /root/LernLix/COMPLETE_DEPLOYMENT.sh
+/root/LernLix/COMPLETE_DEPLOYMENT.sh
+
+# 3. Fertig!
+```
+
+Das Script macht automatisch:
+- Git pull
+- npm install (Backend + Frontend)
+- Database Setup
+- Database Seeding
+- Frontend Build
+- PM2 Start
+
+Für detaillierte Anleitung siehe: [DEPLOYMENT_INSTRUCTIONS.md](./DEPLOYMENT_INSTRUCTIONS.md)
+
+---
+
+## 📊 Database Schema
+
+### Users
+```sql
+CREATE TABLE "Users" (
+  id UUID PRIMARY KEY,
+  fullName VARCHAR(255),
+  email VARCHAR(255) UNIQUE,
+  password VARCHAR(255),
+  role ENUM('student', 'instructor', 'admin'),
+  isActive BOOLEAN,
+  lastLogin TIMESTAMP,
+  createdAt TIMESTAMP,
+  updatedAt TIMESTAMP
+);
+```
+
+### Quests
+```sql
+CREATE TABLE "Quests" (
+  id UUID PRIMARY KEY,
+  title VARCHAR(255),
+  description TEXT,
+  category ENUM('daily', 'weekly', 'challenge'),
+  difficulty ENUM('easy', 'medium', 'hard'),
+  xpReward INTEGER,
+  coinReward INTEGER,
+  isActive BOOLEAN,
+  createdAt TIMESTAMP,
+  updatedAt TIMESTAMP
+);
+```
+
+### Skills
+```sql
+CREATE TABLE "Skills" (
+  id UUID PRIMARY KEY,
+  name VARCHAR(255) UNIQUE,
+  description TEXT,
+  tier INTEGER (1-10),
+  category VARCHAR(100),
+  requiredXP INTEGER,
+  prerequisites JSON,
+  isActive BOOLEAN,
+  createdAt TIMESTAMP,
+  updatedAt TIMESTAMP
+);
+```
+
+### UserStats
+```sql
+CREATE TABLE "UserStats" (
+  id UUID PRIMARY KEY,
+  userId UUID UNIQUE,
+  level INTEGER,
+  totalXP INTEGER,
+  currentXP INTEGER,
+  coins INTEGER,
+  streak INTEGER,
+  maxStreak INTEGER,
+  questsCompleted INTEGER,
+  modulesCompleted INTEGER,
+  skillsUnlocked JSON,
+  createdAt TIMESTAMP,
+  updatedAt TIMESTAMP
+);
+```
+
+### UserQuests
+```sql
+CREATE TABLE "UserQuests" (
+  id UUID PRIMARY KEY,
+  userId UUID,
+  questId UUID,
+  status ENUM('pending', 'in_progress', 'completed'),
+  progress INTEGER (0-100),
+  startedAt TIMESTAMP,
+  completedAt TIMESTAMP,
+  claimedReward BOOLEAN,
+  createdAt TIMESTAMP,
+  updatedAt TIMESTAMP
+);
+```
+
+---
+
+## 🔌 API Endpoints
+
+### Authentication
+```
+POST   /api/auth/register        - User Registration
+POST   /api/auth/login           - User Login
+POST   /api/auth/refresh-token   - Refresh Access Token
+GET    /api/auth/me              - Get Current User (Protected)
+```
+
+### Quests
+```
+GET    /api/quests               - Get All Active Quests (Protected)
+GET    /api/quests/user/progress - Get User's Quests (Protected)
+POST   /api/quests/:id/start     - Start Quest (Protected)
+POST   /api/quests/:id/complete  - Complete Quest (Protected)
+```
+
+### Skills
+```
+GET    /api/skills/tree          - Get Skill Tree (Protected)
+GET    /api/skills/:id           - Get Skill Details (Protected)
+POST   /api/skills/:id/unlock    - Unlock Skill (Protected)
+```
+
+### Stats
+```
+GET    /api/stats/me             - Get User Stats (Protected)
+GET    /api/stats/me/achievements - Get User Achievements (Protected)
+GET    /api/stats/leaderboard    - Get Leaderboard (Protected)
+POST   /api/stats/me/streak/update - Update Streak (Protected)
+```
+
+---
+
+## 🛠️ Development
+
+### Local Setup
+
+**Backend**:
+```bash
+cd backend
+npm install
+cp .env.example .env
+# Edit .env with your database credentials
+npm run dev
+```
+
+**Frontend**:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### Environment Variables
+
+**Backend (.env)**:
+```
+NODE_ENV=production
+PORT=3001
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=lernlix
+DB_USER=lernlix_user
+DB_PASSWORD=postgres123
+JWT_SECRET=your_secret_key
+JWT_EXPIRY=24h
+CORS_ORIGIN=http://localhost:3000
+```
+
+---
+
+## 📈 Roadmap
+
+### Phase 1 ✅ DONE
+- Authentication System
+- RPG Stats System
+- Quests System
+- Skills System
+
+### Phase 2 🔄 IN PROGRESS
+- Learning Modules
+- Code Challenges
+- Progress Tracking
+
+### Phase 3 ⏳ UPCOMING
+- Premium Features
+- Paywall System
+- Advanced Dashboard
+
+### Phase 4 ⏳ UPCOMING
+- Premium UI/UX Design
+- Mobile App
+- Community Features
+
+---
+
+## 🔒 Security
+
+- ✅ Password Hashing (bcrypt)
+- ✅ JWT Token Authentication
+- ✅ CORS Protection
+- ✅ Rate Limiting
+- ✅ Helmet Security Headers
+- ✅ HTTPS/SSL
+
+---
+
+## 📞 Support
+
+Falls Probleme beim Deployment auftreten:
+
+1. **Check Backend Logs**:
+   ```bash
+   pm2 logs lernlix-backend
+   ```
+
+2. **Check Database Connection**:
+   ```bash
+   psql -U lernlix_user -d lernlix -c "SELECT 1;"
+   ```
+
+3. **Check Nginx**:
+   ```bash
+   systemctl status nginx
+   ```
+
+---
+
+## 📄 License
+
+MIT License - Open Source
+
+---
+
+## 👨‍💻 Made with ❤️ for Learning
+
+**CodeSnap** - Die Zukunft des Lernens ist ein Spiel! 🎮⚡
 
