@@ -63,6 +63,11 @@ const start = async () => {
     require('./models/Module')(sequelize);
     require('./models/UserProgress')(sequelize);
     require('./models/Certificate')(sequelize);
+    require('./models/Quest')(sequelize);
+    require('./models/Skill')(sequelize);
+    require('./models/UserStats')(sequelize);
+    require('./models/Achievement')(sequelize);
+    require('./models/UserQuest')(sequelize);
 
     // Sync database
     await sequelize.sync({ alter: process.env.NODE_ENV !== 'production' });
