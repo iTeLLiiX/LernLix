@@ -12,6 +12,7 @@ const progressRoutes = require('./routes/progress');
 const questsRoutes = require('./routes/quests');
 const skillsRoutes = require('./routes/skills');
 const statsRoutes = require('./routes/stats');
+const challengesRoutes = require('./routes/challenges');
 const { authenticateJWT } = require('./middleware/auth');
 const errorHandler = require('./middleware/errorHandler');
 
@@ -40,6 +41,7 @@ app.use('/api/progress', authenticateJWT, progressRoutes);
 app.use('/api/quests', questsRoutes);
 app.use('/api/skills', skillsRoutes);
 app.use('/api/stats', statsRoutes);
+app.use('/api/challenges', challengesRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ error: 'Not Found' });
@@ -64,6 +66,8 @@ const start = async () => {
     require('./models/UserStats')(sequelize);
     require('./models/Achievement')(sequelize);
     require('./models/UserQuest')(sequelize);
+    require('./models/CodeChallenge')(sequelize);
+    require('./models/UserChallenge')(sequelize);
 
     await sequelize.sync({ alter: process.env.NODE_ENV !== 'production' });
     console.log('[BOOT] ✅ Database synchronized');
